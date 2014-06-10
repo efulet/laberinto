@@ -1,0 +1,117 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[letter, 10pt]{article}
+
+\usepackage{fancyhdr, graphicx, float} % Required for the inclusion of images
+\usepackage{amsmath} % Required for some math elements
+\newcommand{\BigO}[1]{\ensuremath{\operatorname{O}\bigl(#1\bigr)}}
+\usepackage{mathtools}
+\usepackage{tikz} % Required for generate trees
+\usetikzlibrary{trees,positioning}
+\usepackage{listings}
+
+\usepackage[spanish]{babel} % Para separar correctamente las palabras
+\usepackage[utf8]{inputenc} % Este paquete permite poner acentos y eñes usando c
+
+\usepackage[titletoc,toc,title]{appendix}
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+\renewcommand{\labelenumi}{\alph{enumi}.} % Make numbering in the enumerate environment by letter rather than number (e.g. section 6)
+
+%\usepackage{times} % Uncomment to use the Times New Roman font
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\textheight=21cm
+\textwidth=16.5cm
+\topmargin=-0.5cm
+\oddsidemargin=0cm
+\parindent=0mm
+
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[L]{\includegraphics[width=5em]{images/logo_c_ucn_small}\hspace{0.3cm}\parbox[b][4em][t]{0.8\textwidth}{Universidad Católica del Norte \\ Departamento de Ingeniería de Sistemas y Computación \\ Magíster en Ingeniería Informática}}
+\fancyhead[R]{}
+
+\title{Proyecto Final \\ Problema del Laberinto \\ Resolución Basada en Búsqueda}
+% Title
+\date{\today}
+
+\begin{document}
+
+\maketitle % Insert the title, author and date
+\thispagestyle{fancy}
+
+\begin{center}
+\begin{tabular}{l r}
+Fecha de Entrega: &  20 de Mayo, 2014 \\ % Date the experiment was performed
+Autor: & Brian Keith \\ & Exequiel Fuentes \\
+Asignatura: & Sistemas Inteligentes\\ % Asignatura
+Profesor: & Juan Bekios-Calfa % Instructor/supervisor
+\end{tabular}
+\end{center}
+
+% If you wish to include an abstract, uncomment the lines below
+% \begin{abstract}
+% Abstract text
+% \end{abstract}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+
+\section{Introducción}
+
+
+% Definir los objetivos en esta seccion
+\subsection{Objetivos}
+
+
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+
+\section{Métodos implementados}
+
+
+\subsection{Algoritmos de Búsqueda}
+
+
+\subsubsection{Definición formal del problema}
+
+
+\subsubsection{Explicación de los algoritmos de búsqueda}
+
+
+\subsection{Código Documentado}
+
+
+\subsection{Resultados Obtenidos}
+
+
+%----------------------------------------------------------------------------------------
+%	SECTION 3
+%----------------------------------------------------------------------------------------
+
+\section{Resultados y conclusiones}
+
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+\bibliographystyle{apalike}
+
+\begin{thebibliography}{10} % 10 the total number of references
+    \bibitem{Russell10} S. Russell {\em Artificial Intelligence} 2010: A Modern Approach.
+\end{thebibliography}
+
+%----------------------------------------------------------------------------------------
+%    DOCUMENT END
+%----------------------------------------------------------------------------------------
+
+\end{document}
