@@ -63,6 +63,7 @@ class BusquedaEnAnchura(Busqueda):
         """
         
         # BFS is based on queue data structure.
+        # Aca se inicializan los estados
         
         self._laberinto = laberinto
         self._posicion_jugador = self._laberinto.obtener_posicion_inicial_jugador()
@@ -76,16 +77,18 @@ class BusquedaEnAnchura(Busqueda):
     def hay_solucion(self):
         return len(self._cola) != 0
     
+    #TODO queda pendiente calcular los siguientes sucesores y guardar los visitados
     def proxima_posicion(self):
         mapa = self._laberinto.obtener_matriz_laberinto()
-        mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 1  
         
-        # TODO: Aca hay que comprobar que no haya sido visitado
-        sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
+        # Se libera la posicion actual. "4" significa "ya visitado"
+        mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 4
         
-        # Nueva posicion del jugador
+        # Nueva posicion del jugador. "2" significa "jugador"
         self._posicion_jugador = self._cola.popleft()
-        mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2        
+        mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
+        
+        sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
         
         for sucesor in sucesores:
             self._cola.append(sucesor)

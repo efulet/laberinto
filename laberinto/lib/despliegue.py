@@ -66,16 +66,15 @@ class Despliegue:
         
         while (self._busqueda.hay_solucion()):
             if (self._busqueda.es_meta()):
-                print "Llegue..."
-                break
+                sys.exit()
             
-            #Si no es meta buscar otro candidato
+            # Si no es meta buscar otro candidato
             self._busqueda.proxima_posicion()
             
             time.sleep(0.15)
             clear_screen()
             update_when('next_tick')
             self._dibujar()
-            #update_when('key_pressed')
+            if self._optiones.auto == False: update_when('key_pressed')
         
         end_graphics()
