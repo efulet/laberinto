@@ -10,24 +10,26 @@
 
 from argparse import ArgumentParser
 
-class Optiones:
+
+class Opciones:
     """Esta clase ayuda a manejar los argumentos que pueden ser pasados por la 
     linea de comandos.
     
     Por ejemplo, escriba:
     $> ./bin/laberinto.sh --help
     """
+
     def __init__(self):
-        self._init_parser()
-    
-    def _init_parser(self):
         self.parser = ArgumentParser(usage='/bin/laberinto.sh [--help]')
+        self._init_parser()
+
+    def _init_parser(self):
         # TODO: Agregar opciones para cada tipo de busqueda
         self.parser.add_argument('-a', '--auto',
                                  help='movimiento automatico o por tecla',
                                  action='store_true')
         self.parser.add_argument('-i', '--input',
                                  help='mapa en formato texto')
-    
+
     def parse(self, args=None):
         return self.parser.parse_args(args)

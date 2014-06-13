@@ -8,6 +8,7 @@
 #   1. Para codificacion: PEP 8 - Style Guide for Python Code (http://legacy.python.org/dev/peps/pep-0008/)
 #   2. Para documentacion: PEP 257 - Docstring Conventions (http://legacy.python.org/dev/peps/pep-0257/)
 
+
 class LaberintoExcepcion(Exception):
     """LaberintoExcepcion maneja las excepciones para la clase Laberinto
     

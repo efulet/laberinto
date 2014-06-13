@@ -16,6 +16,7 @@ import sys
 
 from despliegue_excepcion import DespliegueExcepcion
 
+
 class Despliegue:
     def __init__(self, laberinto, busqueda, optiones):
         """Crea una instancia de la clase Despliegue
@@ -27,27 +28,28 @@ class Despliegue:
         self._laberinto = laberinto
         self._busqueda = busqueda
         self._optiones = optiones
-        
+
         self._width = self._laberinto.obtener_columnas() * 32
         self._height = self._laberinto.obtener_filas() * 32
-    
-    def _img_path(self):
+
+    @staticmethod
+    def _img_path():
         """Retorna el path de las imagenes"""
         pathfile = os.path.dirname(os.path.abspath(__file__))
         return os.path.join(pathfile, "..", "img")
-    
+
     def _dibujar(self):
         """Dibuja el mapa"""
         w = 16
         h = (self._laberinto.obtener_filas() * 32 ) - 16
         mapa = self._laberinto.obtener_matriz_laberinto()
-        
+
         img_path = self._img_path()
         grass_path = os.path.join(img_path, "grass.png")
         bloque_path = os.path.join(img_path, "bloque.png")
         ball_path = os.path.join(img_path, "ball.png")
         migas_path = os.path.join(img_path, "migas.png")
-        
+
         for f in xrange(self._laberinto.obtener_filas()):
             for c in xrange(self._laberinto.obtener_columnas()):
                 Image(grass_path, (w, h))
@@ -60,22 +62,23 @@ class Despliegue:
                 w += 32
             w = 16
             h -= 32
-    
+
     def comenzar(self):
         """Inicia el despliegue del laberinto"""
         begin_graphics(width=self._width, height=self._height, title="Buscador de Caminos")
-        
+
         while self._busqueda.hay_solucion():
             if self._busqueda.es_meta():
+                update_when('key_pressed')
                 sys.exit()
-            
+
             # Si no es meta buscar otro candidato
             self._busqueda.proxima_posicion()
-            
+
             time.sleep(0.15)
             clear_screen()
             update_when('next_tick')
             self._dibujar()
-            if not self._optiones.auto: update_when('key_pressed')
-        
+            #if not self._optiones.auto: update_when('key_pressed')
+
         end_graphics()

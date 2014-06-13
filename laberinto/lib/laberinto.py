@@ -118,13 +118,13 @@ class Laberinto:
         deltaf = [-1, 0, 1, 0]
         deltac = [0, -1, 0, 1]
         for i in xrange(4):
-            nuevoF = posicion_objeto[0] + deltaf[i]
-            nuevoC = posicion_objeto[1] + deltac[i]
+            nuevof = posicion_objeto[0] + deltaf[i]
+            nuevoc = posicion_objeto[1] + deltac[i]
             # Se verifica que la nueva cordenada este dentro de la matriz.
-            if 0 <= nuevoF < self._filas and 0 <= nuevoC < self._columnas:
+            if 0 <= nuevof < self._filas and 0 <= nuevoc < self._columnas:
                 # Se verifica si es que no es una muralla ni ha sido recorrido antes.
-                if self._mapa[nuevoF][nuevoC] == 1 or self._mapa[nuevoF][nuevoC] == 3:
-                    libres.append([nuevoF, nuevoC])
+                if self._mapa[nuevof][nuevoc] == 1 or self._mapa[nuevof][nuevoc] == 3:
+                    libres.append([nuevof, nuevoc])
 
         return libres
 
