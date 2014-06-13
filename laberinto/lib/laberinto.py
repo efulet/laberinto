@@ -52,28 +52,32 @@ class Laberinto:
     def _leer_mapa(self):
         """Lee el mapa de entrada el cual esta en formato texto. Retorna una 
         representacion del mapa en una lista."""
-        # primero verifica si el archivo existe, sino existe crea una excepcion
+        # Primero verifica si el archivo existe, sino existe crea una excepcion
         if os.path.isfile(self._mapa_path) == False:
             error_msg = "Archivo de entrada no existe: " + self._mapa_path
             raise LaberintoExcepcion(error_msg)
         
-        # lee el archivo de entrada y a la vez remueve el salto de linea al final
+        # Lee el archivo de entrada y a la vez remueve el salto de linea al final
         lineas = [linea.strip() for linea in open(self._mapa_path)]
         
-        # transforma un caracter en una representacion numerica
+        # Transforma un caracter en una representacion numerica. Donde:
+        # "#" => paredes
+        # "." => caminos
+        # "T" => jugador
+        # "S" => salida
         mapa = []
         for i in xrange(len(lineas)):
             lista = []
             cadena = lineas[i]
             
             for j in xrange(len(cadena)):
-                if cadena[j] == ".":
-                    lista.append(1)
                 if cadena[j] == "#":
                     lista.append(0)
-                if cadena[j] == "T":
+                elif cadena[j] == ".":
+                    lista.append(1)
+                elif cadena[j] == "T":
                     lista.append(2)
-                if cadena[j] == "S":
+                elif cadena[j] == "S":
                     lista.append(3)
             
             mapa.append(lista)
@@ -112,16 +116,19 @@ class Laberinto:
         
         if self._mapa[posicion_objeto[0]-1][posicion_objeto[1]] == 1:
             libres.append([posicion_objeto[0]-1, posicion_objeto[1]])
+        
         if self._mapa[posicion_objeto[0]+1][posicion_objeto[1]] == 1:
             libres.append([posicion_objeto[0]+1, posicion_objeto[1]])
+        
         if self._mapa[posicion_objeto[0]][posicion_objeto[1]-1] == 1:
             libres.append([posicion_objeto[0], posicion_objeto[1]-1])
+        
         if self._mapa[posicion_objeto[0]][posicion_objeto[1]+1] == 1:
             libres.append([posicion_objeto[0], posicion_objeto[1]+1])
         
         return libres
     
-    def to_str(self):
+    def __str__(self):
         """Retorna el mapa en formato texto"""
         mapa_str = ""
         
@@ -129,15 +136,15 @@ class Laberinto:
             for c in xrange(self._columnas):
                 if self._mapa[f][c] == 0:
                     mapa_str += "# "
-                if self._mapa[f][c] == 1:
+                elif self._mapa[f][c] == 1:
                     mapa_str += "  "
-                if self._mapa[f][c] == 4:
-                    mapa_str += ". "
-                if self._mapa[f][c] == 2:
+                elif self._mapa[f][c] == 2:
                     mapa_str += "T "
-                if self._mapa[f][c] == 3:
+                elif self._mapa[f][c] == 3:
                     mapa_str += "S "
-                if self._mapa[f][c] == 5:
+                elif self._mapa[f][c] == 4:
+                    mapa_str += ". "
+                elif self._mapa[f][c] == 5:
                     mapa_str += "  "
             mapa_str += '\n'
         

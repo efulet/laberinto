@@ -23,9 +23,9 @@ class Optiones:
     def _init_parser(self):
         self.parser = ArgumentParser(usage='/bin/laberinto.sh [--help]')
         # TODO: Agregar opciones para cada tipo de busqueda
-        #self.parser.add_argument('-s', '--show',
-        #                         help='despliega el laberinto en forma grafica',
-        #                         action='store_true')
+        self.parser.add_argument('-a', '--auto',
+                                 help='movimiento automatico o por tecla',
+                                 action='store_true')
         self.parser.add_argument('-i', '--input',
                                  help='mapa en formato texto')
     
