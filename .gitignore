@@ -2,6 +2,7 @@
 .project
 .pydevproject
 .settings
+.idea
 *.pyc
 *.aux
 *.dvi
