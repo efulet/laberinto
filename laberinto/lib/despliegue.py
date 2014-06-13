@@ -18,16 +18,16 @@ from despliegue_excepcion import DespliegueExcepcion
 
 
 class Despliegue:
-    def __init__(self, laberinto, busqueda, optiones):
+    def __init__(self, laberinto, busqueda, opciones):
         """Crea una instancia de la clase Despliegue
         
         :param laberinto: Es un objeto de la clase Laberinto
         :param busqueda: Es un objecto de la clase busqueda
-        :param optiones: Valores opcionales para inicializar las variables de clase
+        :param opciones: Valores opcionales para inicializar las variables de clase
         """
         self._laberinto = laberinto
         self._busqueda = busqueda
-        self._optiones = optiones
+        self._opciones = opciones
 
         self._width = self._laberinto.obtener_columnas() * 32
         self._height = self._laberinto.obtener_filas() * 32
@@ -79,6 +79,5 @@ class Despliegue:
             clear_screen()
             update_when('next_tick')
             self._dibujar()
-            #if not self._optiones.auto: update_when('key_pressed')
 
         end_graphics()

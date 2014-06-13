@@ -18,18 +18,31 @@ class Opciones:
     Por ejemplo, escriba:
     $> ./bin/laberinto.sh --help
     """
-
+    
     def __init__(self):
         self.parser = ArgumentParser(usage='/bin/laberinto.sh [--help]')
         self._init_parser()
-
+    
     def _init_parser(self):
-        # TODO: Agregar opciones para cada tipo de busqueda
-        self.parser.add_argument('-a', '--auto',
-                                 help='movimiento automatico o por tecla',
-                                 action='store_true')
+        #TODO agregar este argumento??
+        #self.parser.add_argument('-a', '--auto',
+        #                         help='movimiento automatico o por tecla',
+        #                         action='store_true')
+        
+        # Define la entrada que es un mapa en formato texto
         self.parser.add_argument('-i', '--input',
                                  help='mapa en formato texto')
-
+        
+        # Define las opciones de busqueda
+        self.parser.add_argument('-bea',
+                                 help='busqueda en anchura',
+                                 action='store_true')
+        self.parser.add_argument('-bep',
+                                 help='busqueda en profundidad',
+                                 action='store_true')
+        self.parser.add_argument('-bcu',
+                                 help='busqueda costo uniforme',
+                                 action='store_true')
+        
     def parse(self, args=None):
         return self.parser.parse_args(args)

@@ -12,6 +12,7 @@ Basado en el trabajo de Juan Bekios-Calfa <juan.bekios@ucn.cl>
 
 from collections import deque
 from heapq import heappush, heappop, heapify
+
 from busqueda_excepcion import BusquedaExcepcion
 
 
@@ -20,19 +21,19 @@ class Busqueda:
     busquedas especificas. El fin de esta clase es estandarizar la implentacion 
     de sus clases hijas.
     """
-
+    
     def es_meta(self):
         """Comprueba si el jugador llego a la meta."""
         raise NotImplementedError
-
+    
     def hay_solucion(self):
         """Comprueba si la busqueda encontro la solucion."""
         raise NotImplementedError
-
-    def _es_sucesor(self, candidato):
+    
+    def es_sucesor(self, candidato):
         """Comprueba si el candidato es un sucesor."""
         raise NotImplementedError
-
+    
     def proxima_posicion(self):
         """Encuentra los sucesores."""
         raise NotImplementedError
@@ -40,151 +41,148 @@ class Busqueda:
 
 class BusquedaEnAnchura(Busqueda):
     """Esta clase implementa busqueda en anchura."""
-
-    def __init__(self, laberinto, optiones):
+    
+    def __init__(self, laberinto, opciones):
         """Crea una instancia de la clase BusquedaEnAnchura.
         
         :param laberinto: Es un objeto de la clase Laberinto
-        :param optiones: Valores opcionales para inicializar las variables de clase
+        :param opciones: Valores opcionales para inicializar las variables de clase
         """
-
-        # Aca se inicializan los estados
-
+        
         self._laberinto = laberinto
-        self._posicion_jugador = self._laberinto.obtener_posicion_inicial_jugador()
+        self._posicion_jugador = self._laberinto.obtener_posicion(2)
         self._cola = deque([self._posicion_jugador])
         self._meta = self._laberinto.obtener_posicion_meta()
-        self._optiones = optiones
-
+        self._opciones = opciones
+    
     def es_meta(self):
         return self._posicion_jugador == self._meta
-
+    
     def hay_solucion(self):
         return len(self._cola) != 0
-
-    def _es_sucesor(self, candidato):
+    
+    def es_sucesor(self, candidato):
         lista = list(self._cola)
         for i in xrange(len(lista)):
             if lista[i] == candidato:
                 return True
         return False
-
-
+    
     def proxima_posicion(self):
         mapa = self._laberinto.obtener_matriz_laberinto()
-
+        
         # Se libera la posicion actual. "4" significa "ya visitado"
         mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 4
-
-        # Nueva posicion del jugador. "2" significa "jugador"
+        
         self._posicion_jugador = self._cola.popleft()
+        
+        # Nueva posicion del jugador. "2" significa "jugador"
         mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
-
+        
         sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
-
+        
         for sucesor in sucesores:
-            if not self._es_sucesor(sucesor):
+            if not self.es_sucesor(sucesor):
                 self._cola.append(sucesor)
 
 
 class BusquedaEnProfundidad(Busqueda):
     """Esta clase implementa busqueda en profundidad."""
-
-    def __init__(self, laberinto, optiones):
+    
+    def __init__(self, laberinto, opciones):
         """Crea una instancia de la clase BusquedaEnProfundidad.
         
         :param laberinto: Es un objeto de la clase Laberinto
-        :param optiones: Valores opcionales para inicializar las variables de clase
+        :param opciones: Valores opcionales para inicializar las variables de clase
         """
-
+        
         self._laberinto = laberinto
-        self._posicion_jugador = self._laberinto.obtener_posicion_inicial_jugador()
+        self._posicion_jugador = self._laberinto.obtener_posicion(2)
         self._cola = deque([self._posicion_jugador])
         self._meta = self._laberinto.obtener_posicion_meta()
-        self._optiones = optiones
-
+        self._opciones = opciones
+    
     def es_meta(self):
         return self._posicion_jugador == self._meta
-
+    
     def hay_solucion(self):
         return len(self._cola) != 0
-
-    def _es_sucesor(self, candidato):
+    
+    def es_sucesor(self, candidato):
         lista = list(self._cola)
         for i in xrange(len(lista)):
             if lista[i] == candidato:
                 return True
         return False
-
+    
     def proxima_posicion(self):
         mapa = self._laberinto.obtener_matriz_laberinto()
-
+        
         # Se libera la posicion actual. "4" significa "ya visitado"
         mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 4
-
-        # Nueva posicion del jugador. "2" significa "jugador"
+        
         self._posicion_jugador = self._cola.pop()
+        
+        # Nueva posicion del jugador. "2" significa "jugador"
         mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
 
         sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
 
         for sucesor in sucesores:
-            if not self._es_sucesor(sucesor):
+            if not self.es_sucesor(sucesor):
                 self._cola.append(sucesor)
 
 
 class BusquedaCostoUniforme(Busqueda):
     """Esta clase implementa busqueda en anchura."""
-
-    def __init__(self, laberinto, optiones):
+    
+    def __init__(self, laberinto, opciones):
         """Crea una instancia de la clase BusquedaCostoAnchura.
-
+        
         :param laberinto: Es un objeto de la clase Laberinto
-        :param optiones: Valores opcionales para inicializar las variables de clase
+        :param opciones: Valores opcionales para inicializar las variables de clase
         """
-
-        # Aca se inicializan los estados
-
+        
         self._laberinto = laberinto
-        self._posicion_jugador = self._laberinto.obtener_posicion_inicial_jugador()
+        self._posicion_jugador = self._laberinto.obtener_posicion(2)
         self._costo_actual = 0
-        self._cola = deque([[self._costo_actual, self._posicion_jugador]])
+        self._heap = [(self._costo_actual, self._posicion_jugador)]
+        heapify(self._heap)
         self._meta = self._laberinto.obtener_posicion_meta()
-        self._optiones = optiones
-
+        self._opciones = opciones
+    
     def es_meta(self):
         return self._posicion_jugador == self._meta
-
+    
     def hay_solucion(self):
-        return len(self._cola) != 0
-
-    def _es_sucesor(self, candidato):
+        return len(self._heap) != 0
+    
+    def es_sucesor(self, candidato):
         return False
-
-
+    
     def proxima_posicion(self):
         mapa = self._laberinto.obtener_matriz_laberinto()
-
+        
         # Se libera la posicion actual. "4" significa "ya visitado"
         mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 4
-        # Nueva posicion del jugador. "2" significa "jugador"
-        objeto = self._cola.popleft()
+        
+        objeto = heappop(self._heap)
+        
         self._costo_actual = objeto[0]
         self._posicion_jugador = objeto[1]
-
+        
+        # Nueva posicion del jugador. "2" significa "jugador"
         mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
 
         sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
 
         for sucesor in sucesores:
-            lista = list(self._cola)
+            lista = list(self._heap)
             flag = False
             for i in xrange(len(lista)):
                 if lista[i][1] == sucesor:
                     flag = True
                     if lista[i][0] < self._costo_actual + 1:
-                        self._cola.append([self._costo_actual + 1, sucesor])
+                        heappush(self._heap, (self._costo_actual + 1, sucesor))
             if not flag:
-                self._cola.append([self._costo_actual + 1, sucesor])
-
-
+                heappush(self._heap, (self._costo_actual + 1, sucesor))

@@ -13,10 +13,13 @@ import sys
 import datetime
 
 from lib import Opciones
+
 from lib import Laberinto
+
 from lib import BusquedaEnAnchura
 from lib import BusquedaEnProfundidad
 from lib import BusquedaCostoUniforme
+
 from lib import Despliegue
 
 
@@ -30,10 +33,10 @@ if __name__ == '__main__':
     try:
         # Verificar version de python
         check_version()
-
+        
         opciones = Opciones()
         opts = opciones.parse(sys.argv[1:])
-
+        
         # Ejemplo como medir tiempo de ejecucion, quizas podamos usar una 
         # libreria mas especializada para medir el uso de la memoria y cosas
         # asi.
@@ -41,13 +44,22 @@ if __name__ == '__main__':
         #start = datetime.datetime.now()
         #q1.depth_first_search()
         #print "La ejecucion tomo:", str(datetime.datetime.now() - start)
-
+        
         laberinto = Laberinto(opts)
-
-        #TODO: Si usamos opciones podemos elegir el tipo de busqueda
-        #busqueda = BusquedaEnAnchura(laberinto, opts)
-        #busqueda = BusquedaEnProfundidad(laberinto, opts)
-        busqueda = BusquedaCostoUniforme(laberinto, opts)
+        
+        busqueda = None
+        if opts.bea:
+            busqueda = BusquedaEnAnchura(laberinto, opts)
+        elif opts.bep:
+            busqueda = BusquedaEnProfundidad(laberinto, opts)
+        elif opts.bcu:
+            busqueda = BusquedaCostoUniforme(laberinto, opts)
+        else:
+            # Por defecto es busqueda en anchura
+            print "Por defecto, ejecutando Busqueda en Anchura. Vea las opciones:"
+            print "$> ./bin/laberinto.sh --help"
+            busqueda = BusquedaEnAnchura(laberinto, opts)
+        
         despliegue = Despliegue(laberinto, busqueda, opts)
         despliegue.comenzar()
     except Exception, err:

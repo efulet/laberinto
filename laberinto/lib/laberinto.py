@@ -21,17 +21,17 @@ class Laberinto:
     posterior uso.
     """
 
-    def __init__(self, optiones):
+    def __init__(self, opciones):
         """Crea una instancia de la clase Laberinto
         
-        :param optiones: Valores opcionales para inicializar las variables de clase
+        :param opciones: Valores opcionales para inicializar las variables de clase
         """
-        self._optiones = optiones
+        self._opciones = opciones
 
         # Si no hay un mapa como entrada se usa el mapa de ejemplo
         # TODO: cambiar nombre de la opcion "input"?? algo como mapa?
-        if self._optiones.input:
-            self._mapa_path = self._optiones.input
+        if self._opciones.input:
+            self._mapa_path = self._opciones.input
         else:
             self._mapa_path = self._input_path()
 
@@ -40,10 +40,10 @@ class Laberinto:
         self._columnas = len(self._mapa[0])
 
         # 3 representa a la meta
-        self._posicion_meta = self._obtener_posicion(3)
+        self._posicion_meta = self.obtener_posicion(3)
 
         # 2 representa al jugador
-        self._posicion_inicial_jugador = self._obtener_posicion(2)
+        self._posicion_inicial_jugador = self.obtener_posicion(2)
 
     def _input_path(self):
         """Retorna el path del archivo laberinto usado como ejemplo"""
@@ -85,7 +85,7 @@ class Laberinto:
 
         return mapa
 
-    def _obtener_posicion(self, objeto):
+    def obtener_posicion(self, objeto):
         """Retorna las coordenadas de un objecto especifico"""
         for f in xrange(self._filas):
             for c in xrange(self._columnas):
