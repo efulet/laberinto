@@ -127,8 +127,7 @@ class BusquedaEnProfundidad(Busqueda):
         
         self._laberinto = laberinto
         self._posicion_jugador = self._laberinto.obtener_posicion_inicial_jugador()
-        self._lista = []
-        self._lista.append(self._posicion_jugador)
+        self._cola = deque([self._posicion_jugador])
         self._meta = self._laberinto.obtener_posicion_meta()
         self._optiones = optiones
     
@@ -136,9 +135,20 @@ class BusquedaEnProfundidad(Busqueda):
         return self._posicion_jugador == self._meta
     
     def hay_solucion(self):
-        raise NotImplementedError
-    
+        return len(self._cola) != 0
+
+    #TODO queda pendiente calcular los siguientes sucesores y guardar los visitados
     def proxima_posicion(self):
-        raise NotImplementedError
-    
-    
+        mapa = self._laberinto.obtener_matriz_laberinto()
+
+        # Se libera la posicion actual. "4" significa "ya visitado"
+        mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 4
+
+        # Nueva posicion del jugador. "2" significa "jugador"
+        self._posicion_jugador = self._cola.pop()
+        mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
+
+        sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
+
+        for sucesor in sucesores:
+            self._cola.append(sucesor)

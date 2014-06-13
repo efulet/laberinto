@@ -12,6 +12,7 @@ Basado en el trabajo de Juan Bekios-Calfa <juan.bekios@ucn.cl>
 
 import os
 from gasp import *
+import sys
 
 from despliegue_excepcion import DespliegueExcepcion
 
@@ -64,8 +65,8 @@ class Despliegue:
         """Inicia el despliegue del laberinto"""
         begin_graphics(width=self._width, height=self._height, title="Buscador de Caminos")
         
-        while (self._busqueda.hay_solucion()):
-            if (self._busqueda.es_meta()):
+        while self._busqueda.hay_solucion():
+            if self._busqueda.es_meta():
                 sys.exit()
             
             # Si no es meta buscar otro candidato
@@ -75,6 +76,6 @@ class Despliegue:
             clear_screen()
             update_when('next_tick')
             self._dibujar()
-            if self._optiones.auto == False: update_when('key_pressed')
+            if not self._optiones.auto: update_when('key_pressed')
         
         end_graphics()

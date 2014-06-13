@@ -15,6 +15,7 @@ import datetime
 from lib import Optiones
 from lib import Laberinto
 from lib import BusquedaEnAnchura
+from lib import BusquedaEnProfundidad
 from lib import Despliegue
 
 def check_version():
@@ -42,7 +43,8 @@ if __name__ == '__main__':
         
         #TODO: Si usamos opciones podemos elegir el tipo de busqueda
         busqueda = BusquedaEnAnchura(laberinto, opts)
-        
+        #busqueda = BusquedaEnProfundidad(laberinto, opts)
+
         despliegue = Despliegue(laberinto, busqueda, opts)
         despliegue.comenzar()
     except Exception, err:
