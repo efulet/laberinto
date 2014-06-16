@@ -193,7 +193,6 @@ class BusquedaCostoUniforme(Busqueda):
             # Finalmente, los que no existiesen se agregan.
             if not flag:
                 heappush(lista, [costo, sucesor])
-        print lista
         #Se actualiza el heap.
         self._heap = lista
 
@@ -210,9 +209,10 @@ class BusquedaAEstrella(Busqueda):
 
         self._laberinto = laberinto
         self._posicion_jugador = self._laberinto.obtener_posicion(2)
+        self._posicion_inicial = self._posicion_jugador
         self._meta = self._laberinto.obtener_posicion_meta()
-        self._costo_actual = self.funcion_heuristica(self._posicion_jugador)
-        self._heap = [(self._costo_actual, self._posicion_jugador)]
+        self._costo_actual = self.funcion_heuristica(self._posicion_inicial)
+        self._heap = [[self._costo_actual, self._posicion_jugador]]
         heapify(self._heap)
         self._opciones = opciones
 
@@ -222,17 +222,15 @@ class BusquedaAEstrella(Busqueda):
     def funcion_heuristica(self, sucesor):
         dx = abs(sucesor[0] - self._meta[0])
         dy = abs(sucesor[1] - self._meta[1])
+        dx2 = self._posicion_inicial[0] - self._meta[0]
+        dy2 = self._posicion_inicial[1] - self._meta[1]
+        cross = abs(dx * dy2 - dx2 * dy)
         # "Distancia" (sin raiz) euclideana!
         #return dx*dx +dy*dy
         # Distancia de Manhattan!
-        #return dx + dy
-        # Distancia de manhattan + cosa rara!
         return dx + dy + min(dx, dy)
-
-
-    def funcion_heuristica_mix(self, sucesor):
-        dx = abs(sucesor[0] - self._meta[0])
-        dy = abs(sucesor[1] - self._meta[1])
+        # Distancia de manhattan + cosa rara!
+        #return dx + dy + min(dx, dy)
 
 
     def es_meta(self):
@@ -250,10 +248,9 @@ class BusquedaAEstrella(Busqueda):
         # Se libera la posicion actual. "4" significa "ya visitado"
         mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 4
 
-        objeto = heappop(self._heap)
-        self._costo_actual = objeto[0]
-        self._posicion_jugador = objeto[1]
-        # El costo real solo deberia considerar la distancia del origen.
+        nodo_actual = heappop(self._heap)
+        self._posicion_jugador = nodo_actual[1]
+        self._costo_actual = nodo_actual[0] - self.funcion_heuristica(self._posicion_jugador)
 
         # Nueva posicion del jugador. "2" significa "jugador
         mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
@@ -261,7 +258,7 @@ class BusquedaAEstrella(Busqueda):
         sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
 
         lista = list(self._heap)
-        costo = self._costo_actual + 1 - self.funcion_heuristica(self._posicion_jugador)
+
         for sucesor in sucesores:
             heuristica = self.funcion_heuristica(sucesor)
             # Flag indica si es que existe o no ya en el heap el par (x,y).
@@ -269,13 +266,14 @@ class BusquedaAEstrella(Busqueda):
             for i in xrange(len(lista)):
                 if lista[i][1] == sucesor:
                     flag = True
-                    if lista[i][0] >= costo + heuristica:
+                    if lista[i][0] >= self._costo_actual + 1 + heuristica:
                         # Debe cambiar el costo.
-                        lista[i][0] = costo + heuristica
+                        lista[i][0] = self._costo_actual + 1 + heuristica
                         # Debo heapifiar.
                         heapify(lista)
             # Finalmente, los que no existiesen se agregan.
             if not flag:
-                heappush(lista, [costo + heuristica, sucesor])
+                heappush(lista, [self._costo_actual + 1 + heuristica, sucesor])
         #Se actualiza el heap.
+        print(lista)
         self._heap = lista
