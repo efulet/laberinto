@@ -68,8 +68,9 @@ if __name__ == '__main__':
             print "Por defecto, ejecutando Busqueda en Anchura. Vea las opciones:"
             print "$> ./bin/laberinto.sh --help"
             busqueda = BusquedaEnAnchura(laberinto, opts)
-        
+
         despliegue = Despliegue(laberinto, busqueda, opts)
         despliegue.comenzar()
+
     except Exception, err:
         print traceback.format_exc()

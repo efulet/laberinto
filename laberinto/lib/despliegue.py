@@ -70,6 +70,7 @@ class Despliegue:
         while self._busqueda.hay_solucion():
             if self._busqueda.es_meta():
                 update_when('key_pressed')
+                print self._busqueda.reconstruir_camino()
                 sys.exit()
 
             # Si no es meta buscar otro candidato
