@@ -17,6 +17,7 @@ from busqueda_excepcion import BusquedaExcepcion
 from busqueda import BusquedaEnAnchura
 from busqueda import BusquedaEnProfundidad
 from busqueda import BusquedaCostoUniforme
+from busqueda import BusquedaAEstrella
 
 from despliegue_excepcion import DespliegueExcepcion
 from despliegue import Despliegue

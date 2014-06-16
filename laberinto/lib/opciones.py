@@ -25,6 +25,7 @@ class Opciones:
     
     def _init_parser(self):
         #TODO agregar este argumento??
+        #TODO agregar argumento para heuristica??
         #self.parser.add_argument('-a', '--auto',
         #                         help='movimiento automatico o por tecla',
         #                         action='store_true')
@@ -42,6 +43,9 @@ class Opciones:
                                  action='store_true')
         self.parser.add_argument('-bcu',
                                  help='busqueda costo uniforme',
+                                 action='store_true')
+        self.parser.add_argument('-bae',
+                                 help='busqueda A*',
                                  action='store_true')
         
     def parse(self, args=None):

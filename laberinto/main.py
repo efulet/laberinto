@@ -16,9 +16,11 @@ from lib import Opciones
 
 from lib import Laberinto
 
+#todo: que tan viable es juntar todo esto?
 from lib import BusquedaEnAnchura
 from lib import BusquedaEnProfundidad
 from lib import BusquedaCostoUniforme
+from lib import BusquedaAEstrella
 
 from lib import Despliegue
 
@@ -54,6 +56,8 @@ if __name__ == '__main__':
             busqueda = BusquedaEnProfundidad(laberinto, opts)
         elif opts.bcu:
             busqueda = BusquedaCostoUniforme(laberinto, opts)
+        elif opts.bae:
+            busqueda = BusquedaAEstrella(laberinto, opts)
         else:
             # Por defecto es busqueda en anchura
             print "Por defecto, ejecutando Busqueda en Anchura. Vea las opciones:"
