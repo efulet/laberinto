@@ -48,7 +48,12 @@ if __name__ == '__main__':
         #print "La ejecucion tomo:", str(datetime.datetime.now() - start)
         
         laberinto = Laberinto(opts)
-        
+
+        # todo: Que tal agregar una medida de cuantos cuadritos tuvo que recorrer el algoritmo antes de terminar?
+        # y ademas tener un contador de los cuadritos libres del laberinto, con eso se puede calcular
+        # el % de cuadrados recorridos respecto al total de cuadrados recorribles, y junto con el tiempo
+        # seria una metrica bastante interesante creo.
+
         busqueda = None
         if opts.bea:
             busqueda = BusquedaEnAnchura(laberinto, opts)
