@@ -120,7 +120,7 @@ class Laberinto:
         for i in xrange(4):
             nuevof = posicion_objeto[0] + deltaf[i]
             nuevoc = posicion_objeto[1] + deltac[i]
-            # Se verifica que la nueva cordenada este dentro de la matriz.
+            # Se verifica que la nueva coordenada este dentro de la matriz.
             if 0 <= nuevof < self._filas and 0 <= nuevoc < self._columnas:
                 # Se verifica si es que no es una muralla ni ha sido recorrido antes.
                 if self._mapa[nuevof][nuevoc] == 1 or self._mapa[nuevof][nuevoc] == 3:
