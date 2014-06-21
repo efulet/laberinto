@@ -9,8 +9,8 @@ un laberinto. Se utilizan los siguientes algoritmos para resolver el problema:
 
   * Breadth-First Search (BFS).
   * Depth-First Search (DFS).
-  * Iterative Deepening Search (IDS)
-  * A* Search
+  * Uniform Cost Search (UCS).
+  * A* Search.
 
 Como ejecutar el programa
 -------------------------
@@ -34,3 +34,6 @@ ejecuta Busqueda en Anchura:
 
   * BusquedaCostoUniforme:
     $> ./bin/laberinto.sh -bcu
+
+  * BusquedaA*:
+    $> ./bin/laberinto.sh -bae
