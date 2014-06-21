@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>lib.busqueda.Busqueda</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="lib-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >Laberinto</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="lib-module.html">Package&nbsp;lib</a> ::
+        <a href="lib.busqueda-module.html">Module&nbsp;busqueda</a> ::
+        Class&nbsp;Busqueda
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="lib.busqueda.Busqueda-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class Busqueda</h1><p class="nomargin-top"><span class="codelink"><a href="lib.busqueda-pysrc.html#Busqueda">source&nbsp;code</a></span></p>
+<center>
+<center>  <map id="uml_class_diagram_for_lib_busq" name="uml_class_diagram_for_lib_busq">
+<area shape="rect" id="node1_6" href="lib.busqueda.Busqueda-class.html#es_meta" title="Comprueba si el jugador llego a la meta." alt="" coords="276,39,444,59"/>
+<area shape="rect" id="node1_7" href="lib.busqueda.Busqueda-class.html#hay_solucion" title="Comprueba si la busqueda encontro la solucion." alt="" coords="276,59,444,79"/>
+<area shape="rect" id="node1_8" href="lib.busqueda.Busqueda-class.html#es_sucesor" title="Comprueba si el candidato es un sucesor." alt="" coords="276,79,444,99"/>
+<area shape="rect" id="node1_9" href="lib.busqueda.Busqueda-class.html#encontrar" title="Encuentra el camino." alt="" coords="276,99,444,119"/>
+<area shape="rect" id="node1_10" href="lib.busqueda.Busqueda-class.html#proxima_posicion" title="Encuentra los sucesores." alt="" coords="276,119,444,139"/>
+<area shape="rect" id="node1_11" href="lib.busqueda.Busqueda-class.html#reconstruir_camino" title="Reconstruye el camino solucion." alt="" coords="276,139,444,159"/>
+<area shape="rect" id="node1" href="lib.busqueda.Busqueda-class.html" title="Esta clase abstracta define los metodos que deben ser implementados por las busquedas especificas." alt="" coords="264,5,456,165"/>
+<area shape="rect" id="node2" href="lib.busqueda.BusquedaAEstrella-class.html" title="Esta clase implementa busqueda A* con una heuristica pasada por parametro." alt="" coords="5,184,153,224"/>
+<area shape="rect" id="node3" href="lib.busqueda.BusquedaEnAnchura-class.html" title="Esta clase implementa busqueda en anchura." alt="" coords="182,184,341,224"/>
+<area shape="rect" id="node4" href="lib.busqueda.BusquedaEnProfundidad-class.html" title="Esta clase implementa busqueda en profundidad." alt="" coords="370,184,550,224"/>
+<area shape="rect" id="node5" href="lib.busqueda.BusquedaCostoUniforme-class.html" title="Esta clase implementa busqueda de costo uniforme." alt="" coords="579,184,762,224"/>
+</map>
+  <img src="uml_class_diagram_for_lib_busq.gif" alt='' usemap="#uml_class_diagram_for_lib_busq" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
+<p>Esta clase abstracta define los metodos que deben ser implementados 
+  por las busquedas especificas. El fin de esta clase es estandarizar la 
+  implementacion de sus clases hijas.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="es_meta"></a><span class="summary-sig-name">es_meta</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Comprueba si el jugador llego a la meta.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="lib.busqueda-pysrc.html#Busqueda.es_meta">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="hay_solucion"></a><span class="summary-sig-name">hay_solucion</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Comprueba si la busqueda encontro la solucion.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="lib.busqueda-pysrc.html#Busqueda.hay_solucion">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="es_sucesor"></a><span class="summary-sig-name">es_sucesor</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">candidato</span>)</span><br />
+      Comprueba si el candidato es un sucesor.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="lib.busqueda-pysrc.html#Busqueda.es_sucesor">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="encontrar"></a><span class="summary-sig-name">encontrar</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Encuentra el camino.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="lib.busqueda-pysrc.html#Busqueda.encontrar">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="proxima_posicion"></a><span class="summary-sig-name">proxima_posicion</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Encuentra los sucesores.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="lib.busqueda-pysrc.html#Busqueda.proxima_posicion">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="reconstruir_camino"></a><span class="summary-sig-name">reconstruir_camino</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Reconstruye el camino solucion.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="lib.busqueda-pysrc.html#Busqueda.reconstruir_camino">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="lib-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            >Laberinto</th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat Jun 21 17:40:32 2014
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
