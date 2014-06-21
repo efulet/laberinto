@@ -49,6 +49,7 @@ class Despliegue:
         bloque_path = os.path.join(img_path, "bloque.png")
         ball_path = os.path.join(img_path, "ball.png")
         migas_path = os.path.join(img_path, "migas.png")
+        minotauro_path = os.path.join(img_path, "minotauro.png")
 
         for f in xrange(self._laberinto.obtener_filas()):
             for c in xrange(self._laberinto.obtener_columnas()):
@@ -57,11 +58,22 @@ class Despliegue:
                     Image(bloque_path, (w, h))
                 if mapa[f][c] == 2:
                     Image(ball_path, (w, h))
+                if mapa[f][c] == 3:
+                    Image(minotauro_path, (w, h))
                 if mapa[f][c] == 4:
                     Image(migas_path, (w, h))
                 w += 32
             w = 16
             h -= 32
+
+    def _dibujar_solucion(self, lista):
+        img_path = self._img_path()
+        inicio = self._laberinto.obtener_filas() * 32 - 16
+        solucion_path = os.path.join(img_path, "camino.png")
+        for i in xrange(len(lista)):
+            h = inicio - lista[i][0] * 32
+            w = 16 + lista[i][1] * 32
+            Image(solucion_path, (w, h))
 
     def comenzar(self):
         """Inicia el despliegue del laberinto"""
@@ -70,7 +82,8 @@ class Despliegue:
         while self._busqueda.hay_solucion():
             if self._busqueda.es_meta():
                 update_when('key_pressed')
-                print self._busqueda.reconstruir_camino()
+                self._dibujar_solucion(self._busqueda.reconstruir_camino())
+                update_when('key_pressed')
                 sys.exit()
 
             # Si no es meta buscar otro candidato
@@ -80,5 +93,4 @@ class Despliegue:
             clear_screen()
             update_when('next_tick')
             self._dibujar()
-
         end_graphics()

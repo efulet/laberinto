@@ -12,14 +12,13 @@ Basado en el trabajo de Juan Bekios-Calfa <juan.bekios@ucn.cl>
 
 from collections import deque
 from heapq import heappush, heappop, heapify
-from math import sqrt
 
 from busqueda_excepcion import BusquedaExcepcion
 
 
 class Busqueda:
     """Esta clase define los metodos que deben ser implementados por las 
-    busquedas especificas. El fin de esta clase es estandarizar la implentacion 
+    busquedas especificas. El fin de esta clase es estandarizar la implementacion
     de sus clases hijas.
     """
 
@@ -39,6 +38,10 @@ class Busqueda:
         """Encuentra los sucesores."""
         raise NotImplementedError
 
+    def reconstruir_camino(self):
+        """Reconstruye el camino solucion"""
+        raise NotImplementedError
+
 
 class BusquedaEnAnchura(Busqueda):
     """Esta clase implementa busqueda en anchura."""
@@ -51,20 +54,21 @@ class BusquedaEnAnchura(Busqueda):
         """
 
         self._laberinto = laberinto
-        self._posicion_jugador = self._laberinto.obtener_posicion(2)
-        self._cola = deque([self._posicion_jugador])
+        self._posicion_jugador = self._laberinto.obtener_posicion_inicial_jugador()
+        self._posicion_inicial = self._posicion_jugador
+        self._abiertos = deque([self._posicion_jugador])
         self._meta = self._laberinto.obtener_posicion_meta()
         self._opciones = opciones
-        self._camino_final = []
+        self._camino_final = [(self._posicion_inicial, None)]
 
     def es_meta(self):
         return self._posicion_jugador == self._meta
 
     def hay_solucion(self):
-        return len(self._cola) != 0
+        return len(self._abiertos) != 0
 
     def es_sucesor(self, candidato):
-        lista = list(self._cola)
+        lista = list(self._abiertos)
         for i in xrange(len(lista)):
             if lista[i] == candidato:
                 return True
@@ -72,28 +76,27 @@ class BusquedaEnAnchura(Busqueda):
 
     def proxima_posicion(self):
         mapa = self._laberinto.obtener_matriz_laberinto()
-
         # Se libera la posicion actual. "4" significa "ya visitado"
         mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 4
-
-        self._posicion_jugador = self._cola.popleft()
-
+        self._posicion_jugador = self._abiertos.popleft()
         # Nueva posicion del jugador. "2" significa "jugador"
         mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
-
         sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
-
         for sucesor in sucesores:
             if not self.es_sucesor(sucesor):
-                self._cola.append(sucesor)
+                self._abiertos.append(sucesor)
                 self._camino_final.append((sucesor, self._posicion_jugador))
 
     def reconstruir_camino(self):
         lista = list()
-        n = len(self._camino_final)
-        elemento = self._camino_final[n - 1]
-        #Mientras no sea el inicio.
-        while elemento[1] != self._camino_final[0][0]:
+        #Se busca primero la posicion final (que no necesariamente es la ultima del arreglo).
+        for k in xrange(len(self._camino_final)):
+            if self._camino_final[k][0] == self._meta:
+                elemento = self._camino_final[k]
+                break
+
+        #Se busca los padres mientras no sea el inicio.
+        while elemento[1] != self._posicion_inicial:
             for i in xrange(0, len(self._camino_final)):
                 if self._camino_final[i][0] == elemento[1]:
                     elemento = self._camino_final[i]
@@ -113,20 +116,21 @@ class BusquedaEnProfundidad(Busqueda):
         """
 
         self._laberinto = laberinto
-        self._posicion_jugador = self._laberinto.obtener_posicion(2)
-        self._cola = deque([self._posicion_jugador])
+        self._posicion_jugador = self._laberinto.obtener_posicion_inicial_jugador()
+        self._posicion_inicial = self._posicion_jugador
+        self._abiertos = deque([self._posicion_jugador])
         self._meta = self._laberinto.obtener_posicion_meta()
         self._opciones = opciones
-        self._camino_final = []
+        self._camino_final = [(self._posicion_inicial, None)]
 
     def es_meta(self):
         return self._posicion_jugador == self._meta
 
     def hay_solucion(self):
-        return len(self._cola) != 0
+        return len(self._abiertos) != 0
 
     def es_sucesor(self, candidato):
-        lista = list(self._cola)
+        lista = list(self._abiertos)
         for i in xrange(len(lista)):
             if lista[i] == candidato:
                 return True
@@ -134,33 +138,30 @@ class BusquedaEnProfundidad(Busqueda):
 
     def proxima_posicion(self):
         mapa = self._laberinto.obtener_matriz_laberinto()
-
         # Se libera la posicion actual. "4" significa "ya visitado"
         mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 4
-
-        self._posicion_jugador = self._cola.pop()
-
+        self._posicion_jugador = self._abiertos.pop()
         # Nueva posicion del jugador. "2" significa "jugador"
         mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
-
         sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
-
         for sucesor in sucesores:
             if not self.es_sucesor(sucesor):
-                self._cola.append(sucesor)
+                self._abiertos.append(sucesor)
                 self._camino_final.append((sucesor, self._posicion_jugador))
 
     def reconstruir_camino(self):
         lista = list()
-        n = len(self._camino_final)
-        elemento = self._camino_final[n - 1]
-        lista.append(elemento[0])
-        #Mientras no sea el inicio.
-        while elemento[1] != self._camino_final[0][0]:
+        #Se busca primero la posicion final (que no necesariamente es la ultima del arreglo).
+        for k in xrange(len(self._camino_final)):
+            if self._camino_final[k][0] == self._meta:
+                elemento = self._camino_final[k]
+                break
+
+        #Se busca los padres mientras no sea el inicio.
+        while elemento[1] != self._posicion_inicial:
             for i in xrange(0, len(self._camino_final)):
                 if self._camino_final[i][0] == elemento[1]:
                     elemento = self._camino_final[i]
-                    print elemento
                     lista.append(elemento[0])
                     break
         return lista
@@ -177,41 +178,35 @@ class BusquedaCostoUniforme(Busqueda):
         """
 
         self._laberinto = laberinto
-        self._posicion_jugador = self._laberinto.obtener_posicion(2)
+        self._posicion_jugador = self._laberinto.obtener_posicion_inicial_jugador()
+        self._posicion_inicial = self._posicion_jugador
         self._costo_actual = 0
-        self._heap = [(self._costo_actual, self._posicion_jugador)]
-        heapify(self._heap)
+        self._abiertos = [(self._costo_actual, self._posicion_jugador)]
+        heapify(self._abiertos)
         self._meta = self._laberinto.obtener_posicion_meta()
         self._opciones = opciones
-        self._camino_final = []
+        self._camino_final = [(self._posicion_inicial, None)]
 
     def es_meta(self):
         return self._posicion_jugador == self._meta
 
     def hay_solucion(self):
-        return len(self._heap) != 0
+        return len(self._abiertos) != 0
 
     def es_sucesor(self, candidato):
         return False
 
     def proxima_posicion(self):
         mapa = self._laberinto.obtener_matriz_laberinto()
-
         # Se libera la posicion actual. "4" significa "ya visitado"
         mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 4
-
-        nodo_actual = heappop(self._heap)
-
+        nodo_actual = heappop(self._abiertos)
         self._costo_actual = nodo_actual[0]
-        self._camino_final.append((nodo_actual[1], self._posicion_jugador))
         self._posicion_jugador = nodo_actual[1]
-
         # Nueva posicion del jugador. "2" significa "jugador"
         mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
-
         sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
-
-        lista = list(self._heap)
+        lista = list(self._abiertos)
         for sucesor in sucesores:
             costo = self._costo_actual + 1
             # Flag indica si es que existe o no ya en el heap el par (x,y).
@@ -234,15 +229,19 @@ class BusquedaCostoUniforme(Busqueda):
                 # Esto es para reconstruir el camino.
                 self._camino_final.append((sucesor, self._posicion_jugador))
         #Se actualiza el heap.
-        self._heap = lista
+        self._abiertos = lista
 
 
     def reconstruir_camino(self):
         lista = list()
-        n = len(self._camino_final)
-        elemento = self._camino_final[n - 1]
-        #Mientras no sea el inicio.
-        while elemento[1] != self._camino_final[0][0]:
+        #Se busca primero la posicion final (que no necesariamente es la ultima del arreglo).
+        for k in xrange(len(self._camino_final)):
+            if self._camino_final[k][0] == self._meta:
+                elemento = self._camino_final[k]
+                break
+
+        #Se busca los padres mientras no sea el inicio.
+        while elemento[1] != self._posicion_inicial:
             for i in xrange(0, len(self._camino_final)):
                 if self._camino_final[i][0] == elemento[1]:
                     elemento = self._camino_final[i]
@@ -262,55 +261,38 @@ class BusquedaAEstrella(Busqueda):
         """
 
         self._laberinto = laberinto
-        self._posicion_jugador = self._laberinto.obtener_posicion(2)
+        self._posicion_jugador = self._laberinto.obtener_posicion_inicial_jugador()
         self._posicion_inicial = self._posicion_jugador
         self._meta = self._laberinto.obtener_posicion_meta()
         self._costo_actual = self.funcion_heuristica(self._posicion_inicial)
-        self._heap = [[self._costo_actual, self._posicion_jugador]]
-        heapify(self._heap)
+        self._abiertos = [[self._costo_actual, self._posicion_jugador]]
+        heapify(self._abiertos)
         self._opciones = opciones
-        self._camino_final = []
-
-        #todo: que tal pasar la funcion heuristica y costo como parametros?
-        #todo: que tal si ponemos en vez de [0] e [1], .x y .y para que sea mas lindo? En todos los lados que se hace uso de las coordenadas.
+        self._camino_final = [(self._posicion_inicial, None)]
 
     def es_meta(self):
         return self._posicion_jugador == self._meta
 
     def hay_solucion(self):
-        return len(self._heap) != 0
+        return len(self._abiertos) != 0
 
     def funcion_heuristica(self, sucesor):
         dx = abs(sucesor[0] - self._meta[0])
         dy = abs(sucesor[1] - self._meta[1])
-        dx2 = self._posicion_inicial[0] - self._meta[0]
-        dy2 = self._posicion_inicial[1] - self._meta[1]
-        cross = abs(dx * dy2 - dx2 * dy)
-        # "Distancia" (sin raiz) euclideana!
-        #return dx*dx +dy*dy
-        # Distancia de Manhattan!
+        # Distancia de Manhattan modificada!
         return dx + dy + min(dx, dy)
-        # Distancia de manhattan + cosa rara!
-        #return dx + dy + min(dx, dy)
 
     def proxima_posicion(self):
         mapa = self._laberinto.obtener_matriz_laberinto()
-
         # Se libera la posicion actual. "4" significa "ya visitado"
         mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 4
-
-        nodo_actual = heappop(self._heap)
+        nodo_actual = heappop(self._abiertos)
         self._posicion_jugador = nodo_actual[1]
-        self._camino_final.append((nodo_actual[1], self._posicion_jugador))
         self._costo_actual = nodo_actual[0] - self.funcion_heuristica(self._posicion_jugador)
-
         # Nueva posicion del jugador. "2" significa "jugador
         mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
-
         sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
-
-        lista = list(self._heap)
-
+        lista = list(self._abiertos)
         for sucesor in sucesores:
             heuristica = self.funcion_heuristica(sucesor)
             # Flag indica si es que existe o no ya en el heap el par (x,y).
@@ -334,14 +316,18 @@ class BusquedaAEstrella(Busqueda):
                 self._camino_final.append((sucesor, self._posicion_jugador))
 
         #Se actualiza el heap.
-        self._heap = lista
+        self._abiertos = lista
 
     def reconstruir_camino(self):
         lista = list()
-        n = len(self._camino_final)
-        elemento = self._camino_final[n - 1]
-        #Mientras no sea el inicio.
-        while elemento[1] != self._camino_final[0][0]:
+        #Se busca primero la posicion final (que no necesariamente es la ultima del arreglo).
+        for k in xrange(len(self._camino_final)):
+            if self._camino_final[k][0] == self._meta:
+                elemento = self._camino_final[k]
+                break
+
+        #Se busca los padres mientras no sea el inicio.
+        while elemento[1] != self._posicion_inicial:
             for i in xrange(0, len(self._camino_final)):
                 if self._camino_final[i][0] == elemento[1]:
                     elemento = self._camino_final[i]
