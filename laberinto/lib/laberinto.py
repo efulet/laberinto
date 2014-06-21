@@ -21,6 +21,7 @@ class Laberinto:
     posterior uso.
     """
 
+    #TODO: dimensiones dinamicas para el laberinto!
     def __init__(self, opciones):
         """Crea una instancia de la clase Laberinto
         

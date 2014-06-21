@@ -48,6 +48,7 @@ class Despliegue:
         bloque_path = os.path.join(img_path, "bloque.png")
         ball_path = os.path.join(img_path, "ball.png")
         migas_path = os.path.join(img_path, "migas.png")
+        minotauro_path = os.path.join(img_path, "minotauro.png")
 
         for f in xrange(self._laberinto.obtener_filas()):
             for c in xrange(self._laberinto.obtener_columnas()):
@@ -56,25 +57,25 @@ class Despliegue:
                     Image(bloque_path, (w, h))
                 if mapa[f][c] == 2:
                     Image(ball_path, (w, h))
+                if mapa[f][c] == 3:
+                    Image(minotauro_path, (w, h))
                 if mapa[f][c] == 4:
                     Image(migas_path, (w, h))
                 w += 32
             w = 16
             h -= 32
-
-    def _dibujar_camino(self):
+    
+    def _dibujar_solucion(self):
         """Dibuja el camino encontrado"""
         posiciones = self._busqueda.reconstruir_camino()
-        
         camino_path = os.path.join(self._img_path(), "camino.png")
+        inicio = self._laberinto.obtener_filas() * 32 - 16
         
         for p in xrange(len(posiciones)):
-            f = posiciones[p][0]
-            c = posiciones[p][1]
-            w = (c * 32) + 16
-            h = (self._laberinto.obtener_filas() * 32) - (f * 32) - 16
+            h = inicio - posiciones[p][0] * 32
+            w = 16 + posiciones[p][1] * 32
             Image(camino_path, (w, h))
-
+    
     def comenzar(self):
         """Inicia el despliegue del laberinto"""
         try:
@@ -94,7 +95,7 @@ class Despliegue:
             
             if not self._opciones.auto:
                 # Se dibuja el camino recorrido solo antes de presionar una tecla
-                self._dibujar_camino()
+                self._dibujar_solucion()
                 update_when('key_pressed')
         except Exception, e:
             print 'Un error ocurrio durante el dibujo: ', e
