@@ -34,6 +34,11 @@ class Opciones:
         self.parser.add_argument('-m', '--mapa',
                                  help='mapa en formato texto')
         
+        # Define si el programa termina sin presionar una tecla
+        self.parser.add_argument('-t', '--tiempo',
+                                 help='calcula el tiempo que tarda en hacer una busqueda',
+                                 action='store_true')
+        
         # Define las opciones de busqueda
         self.parser.add_argument('-bea',
                                  help='busqueda en anchura',

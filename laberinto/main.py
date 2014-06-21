@@ -29,16 +29,8 @@ if __name__ == '__main__':
         opciones = Opciones()
         opts = opciones.parse(sys.argv[1:])
         
-        # Ejemplo como medir tiempo de ejecucion, quizas podamos usar una 
-        # libreria mas especializada para medir el uso de la memoria y cosas
-        # asi.
-        #print "Ejecutando Depth-First Search..."
-        #start = datetime.datetime.now()
-        #q1.depth_first_search()
-        #print "La ejecucion tomo:", str(datetime.datetime.now() - start)
-        
         laberinto = Laberinto(opts)
-
+        
         # todo: Que tal agregar una medida de cuantos cuadritos tuvo que recorrer el algoritmo antes de terminar?
         # y ademas tener un contador de los cuadritos libres del laberinto, con eso se puede calcular
         # el % de cuadrados recorridos respecto al total de cuadrados recorribles, y junto con el tiempo
@@ -46,21 +38,29 @@ if __name__ == '__main__':
 
         busqueda = None
         if opts.bea:
+            print "Ejecutando Busqueda en Anchura..."
             busqueda = BusquedaEnAnchura(laberinto, opts)
         elif opts.bep:
+            print "Ejecutando Busqueda en Profundidad..."
             busqueda = BusquedaEnProfundidad(laberinto, opts)
         elif opts.bcu:
+            print "Ejecutando Busqueda Costo Uniforme..."
             busqueda = BusquedaCostoUniforme(laberinto, opts)
         elif opts.bae:
+            print "Ejecutando Busqueda A*..."
             busqueda = BusquedaAEstrella(laberinto, opts)
         else:
-            print "Por defecto, ejecutando Busqueda en Anchura. Vea las opciones:"
-            print "$> ./bin/laberinto.sh --help"
+            print "Ejecutando Busqueda en Anchura..."
             busqueda = BusquedaEnAnchura(laberinto, opts)
-
-        despliegue = Despliegue(laberinto, busqueda, opts)
-        despliegue.comenzar()
-
+        
+        if not opts.tiempo:
+            despliegue = Despliegue(laberinto, busqueda, opts)
+            despliegue.comenzar()
+        else:
+            start = datetime.datetime.now()
+            busqueda.encontrar()
+            #print busqueda.reconstruir_camino()
+            print "La ejecucion tomo:", str(datetime.datetime.now() - start)
     except Exception, err:
         print traceback.format_exc()
     finally:

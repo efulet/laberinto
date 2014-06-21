@@ -17,34 +17,52 @@ from busqueda_excepcion import BusquedaExcepcion
 
 
 class Busqueda:
-    """Esta clase define los metodos que deben ser implementados por las 
+    """Esta clase abstracta define los metodos que deben ser implementados por las 
     busquedas especificas. El fin de esta clase es estandarizar la implementacion
     de sus clases hijas.
     """
 
     def es_meta(self):
         """Comprueba si el jugador llego a la meta."""
-        raise NotImplementedError
+        return self._posicion_jugador == self._meta
 
     def hay_solucion(self):
         """Comprueba si la busqueda encontro la solucion."""
-        raise NotImplementedError
+        return len(self._abiertos) != 0
 
     def es_sucesor(self, candidato):
         """Comprueba si el candidato es un sucesor."""
         raise NotImplementedError
-
+    
+    def encontrar(self):
+        """Encuentra el camino."""
+        while self.hay_solucion():
+            if self.es_meta():
+                break
+            # Si no es meta buscar otro candidato
+            self.proxima_posicion()
+    
     def proxima_posicion(self):
         """Encuentra los sucesores."""
         raise NotImplementedError
-    
-    def reconstruir_camino(self):
-        """Reconstruye el camino encontrado."""
-        raise NotImplementedError
 
     def reconstruir_camino(self):
-        """Reconstruye el camino solucion"""
-        raise NotImplementedError
+        """Reconstruye el camino solucion."""
+        lista = list()
+        #Se busca primero la posicion final (que no necesariamente es la ultima del arreglo).
+        for k in xrange(len(self._camino_final)):
+            if self._camino_final[k][0] == self._meta:
+                elemento = self._camino_final[k]
+                break
+
+        #Se busca los padres mientras no sea el inicio.
+        while elemento[1] != self._posicion_inicial:
+            for i in xrange(0, len(self._camino_final)):
+                if self._camino_final[i][0] == elemento[1]:
+                    elemento = self._camino_final[i]
+                    lista.append(elemento[0])
+                    break
+        return lista
 
 
 class BusquedaEnAnchura(Busqueda):
@@ -64,12 +82,6 @@ class BusquedaEnAnchura(Busqueda):
         self._meta = self._laberinto.obtener_posicion_meta()
         self._opciones = opciones
         self._camino_final = [(self._posicion_inicial, None)]
-
-    def es_meta(self):
-        return self._posicion_jugador == self._meta
-
-    def hay_solucion(self):
-        return len(self._abiertos) != 0
 
     def es_sucesor(self, candidato):
         lista = list(self._abiertos)
@@ -91,23 +103,6 @@ class BusquedaEnAnchura(Busqueda):
                 self._abiertos.append(sucesor)
                 self._camino_final.append((sucesor, self._posicion_jugador))
 
-    def reconstruir_camino(self):
-        lista = list()
-        #Se busca primero la posicion final (que no necesariamente es la ultima del arreglo).
-        for k in xrange(len(self._camino_final)):
-            if self._camino_final[k][0] == self._meta:
-                elemento = self._camino_final[k]
-                break
-
-        #Se busca los padres mientras no sea el inicio.
-        while elemento[1] != self._posicion_inicial:
-            for i in xrange(0, len(self._camino_final)):
-                if self._camino_final[i][0] == elemento[1]:
-                    elemento = self._camino_final[i]
-                    lista.append(elemento[0])
-                    break
-        return lista
-
 
 class BusquedaEnProfundidad(Busqueda):
     """Esta clase implementa busqueda en profundidad."""
@@ -126,12 +121,6 @@ class BusquedaEnProfundidad(Busqueda):
         self._meta = self._laberinto.obtener_posicion_meta()
         self._opciones = opciones
         self._camino_final = [(self._posicion_inicial, None)]
-
-    def es_meta(self):
-        return self._posicion_jugador == self._meta
-
-    def hay_solucion(self):
-        return len(self._abiertos) != 0
 
     def es_sucesor(self, candidato):
         lista = list(self._abiertos)
@@ -153,23 +142,6 @@ class BusquedaEnProfundidad(Busqueda):
                 self._abiertos.append(sucesor)
                 self._camino_final.append((sucesor, self._posicion_jugador))
 
-    def reconstruir_camino(self):
-        lista = list()
-        #Se busca primero la posicion final (que no necesariamente es la ultima del arreglo).
-        for k in xrange(len(self._camino_final)):
-            if self._camino_final[k][0] == self._meta:
-                elemento = self._camino_final[k]
-                break
-
-        #Se busca los padres mientras no sea el inicio.
-        while elemento[1] != self._posicion_inicial:
-            for i in xrange(0, len(self._camino_final)):
-                if self._camino_final[i][0] == elemento[1]:
-                    elemento = self._camino_final[i]
-                    lista.append(elemento[0])
-                    break
-        return lista
-
 
 class BusquedaCostoUniforme(Busqueda):
     """Esta clase implementa busqueda de costo uniforme."""
@@ -190,16 +162,7 @@ class BusquedaCostoUniforme(Busqueda):
         self._meta = self._laberinto.obtener_posicion_meta()
         self._opciones = opciones
         self._camino_final = [(self._posicion_inicial, None)]
-
-    def es_meta(self):
-        return self._posicion_jugador == self._meta
-
-    def hay_solucion(self):
-        return len(self._abiertos) != 0
-
-    def es_sucesor(self, candidato):
-        return False
-
+    
     def proxima_posicion(self):
         mapa = self._laberinto.obtener_matriz_laberinto()
         # Se libera la posicion actual. "4" significa "ya visitado"
@@ -236,24 +199,6 @@ class BusquedaCostoUniforme(Busqueda):
         self._abiertos = lista
 
 
-    def reconstruir_camino(self):
-        lista = list()
-        #Se busca primero la posicion final (que no necesariamente es la ultima del arreglo).
-        for k in xrange(len(self._camino_final)):
-            if self._camino_final[k][0] == self._meta:
-                elemento = self._camino_final[k]
-                break
-
-        #Se busca los padres mientras no sea el inicio.
-        while elemento[1] != self._posicion_inicial:
-            for i in xrange(0, len(self._camino_final)):
-                if self._camino_final[i][0] == elemento[1]:
-                    elemento = self._camino_final[i]
-                    lista.append(elemento[0])
-                    break
-        return lista
-
-
 class BusquedaAEstrella(Busqueda):
     """Esta clase implementa busqueda A* con una heuristica pasada por parametro."""
 
@@ -273,12 +218,6 @@ class BusquedaAEstrella(Busqueda):
         heapify(self._abiertos)
         self._opciones = opciones
         self._camino_final = [(self._posicion_inicial, None)]
-
-    def es_meta(self):
-        return self._posicion_jugador == self._meta
-
-    def hay_solucion(self):
-        return len(self._abiertos) != 0
 
     def _funcion_heuristica(self, sucesor):
         dx = abs(sucesor[0] - self._meta[0])
@@ -321,21 +260,3 @@ class BusquedaAEstrella(Busqueda):
 
         #Se actualiza el heap.
         self._abiertos = lista
-
-    def reconstruir_camino(self):
-        lista = list()
-        #Se busca primero la posicion final (que no necesariamente es la ultima del arreglo).
-        for k in xrange(len(self._camino_final)):
-            if self._camino_final[k][0] == self._meta:
-                elemento = self._camino_final[k]
-                break
-
-        #Se busca los padres mientras no sea el inicio.
-        while elemento[1] != self._posicion_inicial:
-            for i in xrange(0, len(self._camino_final)):
-                if self._camino_final[i][0] == elemento[1]:
-                    elemento = self._camino_final[i]
-                    lista.append(elemento[0])
-                    break
-        return lista
-
