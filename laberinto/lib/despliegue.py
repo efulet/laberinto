@@ -12,7 +12,6 @@ Basado en el trabajo de Juan Bekios-Calfa <juan.bekios@ucn.cl>
 
 import os
 from gasp import *
-import sys
 
 from despliegue_excepcion import DespliegueExcepcion
 
@@ -63,22 +62,42 @@ class Despliegue:
             w = 16
             h -= 32
 
+    def _dibujar_camino(self):
+        """Dibuja el camino encontrado"""
+        posiciones = self._busqueda.reconstruir_camino()
+        
+        camino_path = os.path.join(self._img_path(), "camino.png")
+        
+        for p in xrange(len(posiciones)):
+            f = posiciones[p][0]
+            c = posiciones[p][1]
+            w = (c * 32) + 16
+            h = (self._laberinto.obtener_filas() * 32) - (f * 32) - 16
+            Image(camino_path, (w, h))
+
     def comenzar(self):
         """Inicia el despliegue del laberinto"""
-        begin_graphics(width=self._width, height=self._height, title="Buscador de Caminos")
-
-        while self._busqueda.hay_solucion():
-            if self._busqueda.es_meta():
+        try:
+            begin_graphics(width=self._width, height=self._height, title="Buscador de Caminos")
+    
+            while self._busqueda.hay_solucion():
+                if self._busqueda.es_meta():
+                    break
+                
+                # Si no es meta buscar otro candidato
+                self._busqueda.proxima_posicion()
+                
+                time.sleep(0.15)
+                clear_screen()
+                update_when('next_tick')
+                self._dibujar()
+            
+            if not self._opciones.auto:
+                # Se dibuja el camino recorrido solo antes de presionar una tecla
+                self._dibujar_camino()
                 update_when('key_pressed')
-                print self._busqueda.reconstruir_camino()
-                sys.exit()
-
-            # Si no es meta buscar otro candidato
-            self._busqueda.proxima_posicion()
-
-            time.sleep(0.15)
-            clear_screen()
-            update_when('next_tick')
-            self._dibujar()
-
-        end_graphics()
+        except Exception, e:
+            print 'Un error ocurrio durante el dibujo: ', e
+            raise
+        finally:
+            end_graphics()

@@ -16,22 +16,22 @@ class Opciones:
     linea de comandos.
     
     Por ejemplo, escriba:
-    $> ./bin/laberinto.sh --help
+    $> .3/bin/laberinto.sh --help
     """
     
     def __init__(self):
         self.parser = ArgumentParser(usage='/bin/laberinto.sh [--help]')
         self._init_parser()
     
+    #TODO agregar argumento para heuristica??
     def _init_parser(self):
-        #TODO agregar este argumento??
-        #TODO agregar argumento para heuristica??
-        #self.parser.add_argument('-a', '--auto',
-        #                         help='movimiento automatico o por tecla',
-        #                         action='store_true')
+        # Define si el programa termina sin presionar una tecla
+        self.parser.add_argument('-a', '--auto',
+                                 help='movimiento automatico, termina sin presionar tecla',
+                                 action='store_true')
         
         # Define la entrada que es un mapa en formato texto
-        self.parser.add_argument('-i', '--input',
+        self.parser.add_argument('-m', '--mapa',
                                  help='mapa en formato texto')
         
         # Define las opciones de busqueda

@@ -29,9 +29,8 @@ class Laberinto:
         self._opciones = opciones
 
         # Si no hay un mapa como entrada se usa el mapa de ejemplo
-        # TODO: cambiar nombre de la opcion "input"?? algo como mapa?
-        if self._opciones.input:
-            self._mapa_path = self._opciones.input
+        if self._opciones.mapa:
+            self._mapa_path = self._opciones.mapa
         else:
             self._mapa_path = self._input_path()
 
@@ -45,7 +44,8 @@ class Laberinto:
         # 2 representa al jugador
         self._posicion_inicial_jugador = self.obtener_posicion(2)
 
-    def _input_path(self):
+    @staticmethod
+    def _input_path():
         """Retorna el path del archivo laberinto usado como ejemplo"""
         pathfile = os.path.dirname(os.path.abspath(__file__))
         return os.path.join(pathfile, "..", "input", "laberinto.txt")

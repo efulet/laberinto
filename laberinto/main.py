@@ -12,17 +12,7 @@ import traceback
 import sys
 import datetime
 
-from lib import Opciones
-
-from lib import Laberinto
-
-#todo: que tan viable es juntar todo esto?
-from lib import BusquedaEnAnchura
-from lib import BusquedaEnProfundidad
-from lib import BusquedaCostoUniforme
-from lib import BusquedaAEstrella
-
-from lib import Despliegue
+from lib import *
 
 
 def check_version():
@@ -64,7 +54,6 @@ if __name__ == '__main__':
         elif opts.bae:
             busqueda = BusquedaAEstrella(laberinto, opts)
         else:
-            # Por defecto es busqueda en anchura
             print "Por defecto, ejecutando Busqueda en Anchura. Vea las opciones:"
             print "$> ./bin/laberinto.sh --help"
             busqueda = BusquedaEnAnchura(laberinto, opts)
@@ -74,3 +63,5 @@ if __name__ == '__main__':
 
     except Exception, err:
         print traceback.format_exc()
+    finally:
+        sys.exit()

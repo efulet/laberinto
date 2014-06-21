@@ -38,6 +38,10 @@ class Busqueda:
     def proxima_posicion(self):
         """Encuentra los sucesores."""
         raise NotImplementedError
+    
+    def reconstruir_camino(self):
+        """Reconstruye el camino encontrado."""
+        raise NotImplementedError
 
 
 class BusquedaEnAnchura(Busqueda):
@@ -160,7 +164,6 @@ class BusquedaEnProfundidad(Busqueda):
             for i in xrange(0, len(self._camino_final)):
                 if self._camino_final[i][0] == elemento[1]:
                     elemento = self._camino_final[i]
-                    print elemento
                     lista.append(elemento[0])
                     break
         return lista
@@ -265,7 +268,7 @@ class BusquedaAEstrella(Busqueda):
         self._posicion_jugador = self._laberinto.obtener_posicion(2)
         self._posicion_inicial = self._posicion_jugador
         self._meta = self._laberinto.obtener_posicion_meta()
-        self._costo_actual = self.funcion_heuristica(self._posicion_inicial)
+        self._costo_actual = self._funcion_heuristica(self._posicion_inicial)
         self._heap = [[self._costo_actual, self._posicion_jugador]]
         heapify(self._heap)
         self._opciones = opciones
@@ -280,7 +283,7 @@ class BusquedaAEstrella(Busqueda):
     def hay_solucion(self):
         return len(self._heap) != 0
 
-    def funcion_heuristica(self, sucesor):
+    def _funcion_heuristica(self, sucesor):
         dx = abs(sucesor[0] - self._meta[0])
         dy = abs(sucesor[1] - self._meta[1])
         dx2 = self._posicion_inicial[0] - self._meta[0]
@@ -302,7 +305,7 @@ class BusquedaAEstrella(Busqueda):
         nodo_actual = heappop(self._heap)
         self._posicion_jugador = nodo_actual[1]
         self._camino_final.append((nodo_actual[1], self._posicion_jugador))
-        self._costo_actual = nodo_actual[0] - self.funcion_heuristica(self._posicion_jugador)
+        self._costo_actual = nodo_actual[0] - self._funcion_heuristica(self._posicion_jugador)
 
         # Nueva posicion del jugador. "2" significa "jugador
         mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
@@ -312,7 +315,7 @@ class BusquedaAEstrella(Busqueda):
         lista = list(self._heap)
 
         for sucesor in sucesores:
-            heuristica = self.funcion_heuristica(sucesor)
+            heuristica = self._funcion_heuristica(sucesor)
             # Flag indica si es que existe o no ya en el heap el par (x,y).
             flag = False
             for i in xrange(len(lista)):
