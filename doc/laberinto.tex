@@ -46,13 +46,13 @@
 
 \usepackage{listings}
 \lstset{language=Python,
-    basicstyle=\ttfamily\bfseries,
-    commentstyle=\color{red}\itshape,
-  stringstyle=\color{darkgreen},
-  showstringspaces=false,
-  breaklines=true,  
-  keywordstyle=\color{blue}
-  \bfseries}
+        basicstyle={\fontsize{8px}{8px}\ttfamily\bfseries},
+        commentstyle=\color{red}\itshape,
+        stringstyle=\color{darkgreen},
+        showstringspaces=false,
+        breaklines=true,
+        keywordstyle=\color{blue}
+\bfseries}
 
 
 \setlength\parindent{0pt} % Removes all indentation from paragraphs
@@ -81,7 +81,7 @@
   \small efulet@gmail.com\\
 }
 
-\titlepic{\includegraphics[bb=0 0 242 246,scale=0.2,keepaspectratio=true]{./images/ucn_logo.jpg}}
+\titlepic{\includegraphics[bb=0 0 242 246,scale=0.2,keepaspectratio=true]{images/ucn_logo.jpg}}
 % ucn_logo.jpg: 2017x2053 pixel, 600dpi, 8.54x8.69 cm, bb=0 0 242 246
 
 
@@ -287,22 +287,15 @@ Es decir el problema se encuentra resuelto cuando se ha llegado a la posición f
       d_m(X,F) = \abs{x-x_f} + \abs{y-y_f} 
     \end{displaymath}
     Pero la búsqueda A* se beneficia de agregar un factor pequeño para romper empates, este factor se puede definir de varias formas.
-  La heurística se definirá como sigue:   
+  Debido a esto la heurística se definirá como sigue:   
   \begin{displaymath}
       h(X) = d_m(X,F) + c(X,F) 
     \end{displaymath}   
-    Donde $c$ corresponde al factor para romper empates, se han contemplado dos posibles definiciones:
-  \begin{itemize}
-    \item Definir $c$ como el siguiente producto cruz, donde $(x_s,y_s)$ es la posición inicial:
+    Donde $c$ corresponde al factor para romper empates, se ha decidido utiliza la siguiente función para esto:
       \begin{displaymath}
-          c(X,F) = \abs{(x-x_f)\cdot (y-y_s) - (x-x_s)\cdot (y-y_f)}
+          c(X,F) = p \cdot d_m(X,F)
         \end{displaymath}   
-    \item Definir $c$ como la siguiente función mínima:
-      \begin{displaymath}
-          c(X,F) = \min{\abs{x-x_f},\abs{y-y_f}} 
-        \end{displaymath}          
-  \end{itemize}         
-    La primera opción fuerza al agente a realizar un camino lo más similar a una línea recta. Mientras que la segunda opción pretende primero acercarse en una dimensión (es decir quedar en la misma fila o columna que la solución final). Estas dos modificaciones afectan drásticamente el funcionamiento del algoritmo A*, pero siguen produciendo caminos óptimos. Para la implementación final de ha optado por la segunda opción, es decir $c$ es la función mínima.
+    Este factor para romper empates fuerza al agente a escoger caminos más apropiados, si bien la optimalidad de la distancia de Manhattan se rompe con esto, debido a la naturaleza del problema, es muy poco probable que esto afecte para la mayoría de los casos, y los beneficios de velocidad entregados son bastantes. Para la implementación final de ha optado por tomar $p = 0.001$ en base a lo expuesto en la referencia [2] de la bibliografía. La optimalidad de la distancia de Manhattan ha sido demostrada en el apéndice B.
 
 \end{description}
 
@@ -344,11 +337,11 @@ Completitud       & Sí                     & No                     & Sí      
 Notar que en el peor caso A* sigue ocupando tiempo y memoria en orden exponencial, ya que se comportaría como una búsqueda en anchura, solo que ``guíada'' por la heurística. 
 Además A* será O(n) en tiempo y espacio en el mejor caso, cuando se tiene una heurística óptima, donde n es el largo del camino solución.\\
 
-{\small(*)} Si la heurística es admisible entonces el algoritmo A* es óptimo, en caso contrario la optimalidad no está garantizada. En el apéndice B se muestra que las heurísticas utilizadas en este taller son admisibles y por lo tanto óptimas.
+{\small(*)} Si la heurística es admisible entonces el algoritmo A* es óptimo, en caso contrario la optimalidad no está garantizada. En el apéndice B se muestra que las heurísticas de distancia de Manhattan sin modificaciones es admisible y por lo tanto óptima, sin embargo, la distancia de Manhattan modificada por el factor rompe empates propuesta no es siempre óptima (aunque es más rápida generalmente).
 
 \newpage
 \subsection{Implementación}
-\subsubsection{Diagrama de Clases}
+\subsubsection{Diagramas de Clases}
 \begin{figure}[ht]
     \begin{center}
         \includegraphics[scale = 0.5]{images/diagram_busq}
@@ -356,552 +349,233 @@ Además A* será O(n) en tiempo y espacio en el mejor caso, cuando se tiene una 
     \end{center}
 \end{figure}
 
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[scale = 0.5]{images/diagram_bea}
-        \caption{Diagrama de Clases: Búsqueda en Anchura}
-    \end{center}
-\end{figure}
-
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[scale = 0.5]{images/diagram_bep}
-        \caption{Diagrama de Clases: Búsqueda en Profundidad}
-    \end{center}
-\end{figure}
-
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[scale = 0.5]{images/diagram_bcu}
-        \caption{Diagrama de Clases: Búsqueda por Costo Uniforme}
-    \end{center}
-\end{figure}
-
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[scale = 0.5]{images/diagram_bae}
-        \caption{Diagrama de Clases: Búsqueda A*}
-    \end{center}
+    \begin{figure}[H]
+  \centering
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=0.5\linewidth]{images/diagram_bea}
+        \captionof{figure}{Búsqueda en Anchura}
+    \end{minipage}%
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=0.5\linewidth]{images/diagram_bep}
+        \captionof{figure}{Búsqueda en Anchura}
+    \end{minipage}
 \end{figure}
 
 
+    \begin{figure}[H]
+  \centering
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=0.5\linewidth]{images/diagram_bcu}
+        \captionof{figure}{Búsqueda por Costo Uniforme}
+    \end{minipage}%
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=0.5\linewidth]{images/diagram_bae}
+        \captionof{figure}{Búsqueda A*}
+    \end{minipage}
+\end{figure}
 
 
 
-\subsubsection{Código de la clase ``Laberinto''}
+
+
+\subsubsection{Pseudocódigo ``Clase Abstracta Búsqueda''}
 \begin{lstlisting}
-    class Laberinto:
-        """Esta clase representa al laberinto. Tiene como entrada un mapa en formato 
-        texto el cual es procesado por esta clase y guardado en un objeto para su 
-        posterior uso.
-        """
-        
-        def __init__(self, opciones):
-            """Crea una instancia de la clase Laberinto
-            
-            :param opciones: Valores opcionales para inicializar las variables de clase
-            """
-            self._opciones = opciones
+    def es_meta(self):
+        """Comprueba si el jugador llego a la meta."""
+        return self._posicion_jugador == self._meta
+
+    def hay_solucion(self):
+        """Comprueba si la busqueda encontro la solucion."""
+        return len(self._abiertos) != 0
     
-            # Si no hay un mapa como entrada se usa el mapa de ejemplo
-            if self._opciones.mapa:
-                self._mapa_path = self._opciones.mapa
-            else:
-                self._mapa_path = self._input_path()
+    def es_sucesor(self, candidato):
+        """Comprueba si el candidato es un sucesor."""
+        raise NotImplementedError
     
-            self._mapa = self._leer_mapa()
-            self._filas = len(self._mapa)
-            self._columnas = len(self._mapa[0])
+    def encontrar(self):
+        """Encuentra el camino."""
+        while self.hay_solucion():
+            if self.es_meta():
+                break
+            self.proxima_posicion()
     
-            # 3 representa a la meta
-            self._posicion_meta = self.obtener_posicion(3)
-    
-            # 2 representa al jugador
-            self._posicion_inicial_jugador = self.obtener_posicion(2)
-    
-        @staticmethod
-        def _input_path():
-            """Retorna el path del archivo laberinto usado como ejemplo"""
-            pathfile = os.path.dirname(os.path.abspath(__file__))
-            return os.path.join(pathfile, "..", "input", "laberinto.txt")
-    
-        def _leer_mapa(self):
-            """Lee el mapa de entrada el cual esta en formato texto. Retorna una 
-            representacion del mapa en una lista."""
-            # Primero verifica si el archivo existe, sino existe crea una excepcion
-            if os.path.isfile(self._mapa_path) == False:
-                error_msg = "Archivo de entrada no existe: " + self._mapa_path
-                raise LaberintoExcepcion(error_msg)
-    
-            # Lee el archivo de entrada y a la vez remueve el salto de linea al final
-            lineas = [linea.strip() for linea in open(self._mapa_path)]
-    
-            # Transforma un caracter en una representacion numerica. Donde:
-            # "#" => paredes
-            # "." => caminos
-            # "T" => jugador
-            # "S" => salida
-            mapa = []
-            for i in xrange(len(lineas)):
-                lista = []
-                cadena = lineas[i]
-    
-                for j in xrange(len(cadena)):
-                    if cadena[j] == "#":
-                        lista.append(0)
-                    elif cadena[j] == ".":
-                        lista.append(1)
-                    elif cadena[j] == "T":
-                        lista.append(2)
-                    elif cadena[j] == "S":
-                        lista.append(3)
-    
-                mapa.append(lista)
-    
-            return mapa
-    
-        def obtener_posicion(self, objeto):
-            """Retorna las coordenadas de un objecto especifico"""
-            for f in xrange(self._filas):
-                for c in xrange(self._columnas):
-                    if self._mapa[f][c] == objeto:
-                        return [f, c]
-    
-        def obtener_filas(self):
-            """Retorna las filas"""
-            return self._filas
-    
-        def obtener_columnas(self):
-            """Retorna las columnas"""
-            return self._columnas
-    
-        def obtener_matriz_laberinto(self):
-            """Returna la representacion del mapa"""
-            return self._mapa
-    
-        def obtener_posicion_meta(self):
-            """Retorna la posicion de la meta"""
-            return self._posicion_meta
-    
-        def obtener_posicion_inicial_jugador(self):
-            """Retorna la posicion inicial del jugador"""
-            return self._posicion_inicial_jugador
-    
-        def obtener_posiciones_libres(self, posicion_objeto):
-            """Retorna las posiciones accesibles desde la posicion actual"""
-            libres = []
-            deltaf = [-1, 0, 1, 0]
-            deltac = [0, -1, 0, 1]
-            for i in xrange(4):
-                nuevof = posicion_objeto[0] + deltaf[i]
-                nuevoc = posicion_objeto[1] + deltac[i]
-                # Se verifica que la nueva coordenada este dentro de la matriz.
-                if 0 <= nuevof < self._filas and 0 <= nuevoc < self._columnas:
-                    # Se verifica si es que no es una muralla ni ha sido recorrido antes.
-                    if self._mapa[nuevof][nuevoc] == 1 or self._mapa[nuevof][nuevoc] == 3:
-                        libres.append([nuevof, nuevoc])
-    
-            return libres
-    
-        def __str__(self):
-            """Retorna el mapa en formato texto"""
-            mapa_str = ""
-    
-            for f in xrange(self._filas):
-                for c in xrange(self._columnas):
-                    if self._mapa[f][c] == 0:
-                        mapa_str += "# "
-                    elif self._mapa[f][c] == 1:
-                        mapa_str += "  "
-                    elif self._mapa[f][c] == 2:
-                        mapa_str += "T "
-                    elif self._mapa[f][c] == 3:
-                        mapa_str += "S "
-                    elif self._mapa[f][c] == 4:
-                        mapa_str += "* "
-                    elif self._mapa[f][c] == 5:
-                        mapa_str += "  "
-                mapa_str += '\n'
-    
-            return mapa_str
+    def proxima_posicion(self):
+        """Encuentra los sucesores."""
+        raise NotImplementedError
 \end{lstlisting}
 
 
-\subsubsection{Código de la clase ``Búsqueda''}
+\subsubsection{Pseudocódigo ``Búsqueda en Anchura''}
 \begin{lstlisting}
-    class Busqueda:
-        """Esta clase abstracta define los metodos que deben ser implementados por las 
-        busquedas especificas. El fin de esta clase es estandarizar la implementacion
-        de sus clases hijas.
-        """
-        
-        def nombre_busqueda(self):
-            """Retorna el tipo de busqueda."""
-            raise NotImplementedError
-        
-        def es_meta(self):
-            """Comprueba si el jugador llego a la meta."""
-            return self._posicion_jugador == self._meta
-    
-        def hay_solucion(self):
-            """Comprueba si la busqueda encontro la solucion."""
-            return len(self._abiertos) != 0
-    
-        def es_sucesor(self, candidato):
-            """Comprueba si el candidato es un sucesor."""
-            raise NotImplementedError
-        
-        def encontrar(self):
-            """Encuentra el camino."""
-            while self.hay_solucion():
-                if self.es_meta():
-                    break
-                # Si no es meta buscar otro candidato
-                self.proxima_posicion()
-        
-        def proxima_posicion(self):
-            """Encuentra los sucesores."""
-            raise NotImplementedError
-    
-        def reconstruir_camino(self):
-            """Reconstruye el camino solucion."""
-            lista = list()
-            #Se busca primero la posicion final (que no necesariamente es la ultima del arreglo).
-            for k in xrange(len(self._camino_final)):
-                if self._camino_final[k][0] == self._meta:
-                    elemento = self._camino_final[k]
-                    break
-    
-            #Se busca los padres mientras no sea el inicio.
-            while elemento[1] != self._posicion_inicial:
-                for i in xrange(0, len(self._camino_final)):
-                    if self._camino_final[i][0] == elemento[1]:
-                        elemento = self._camino_final[i]
-                        lista.append(elemento[0])
-                        break
-            return lista
-    
-    
-    class BusquedaEnAnchura(Busqueda):
-        """Esta clase implementa busqueda en anchura."""
-    
-        def __init__(self, laberinto, opciones):
-            """Crea una instancia de la clase BusquedaEnAnchura.
-            
-            :param laberinto: Es un objeto de la clase Laberinto
-            :param opciones: Valores opcionales para inicializar las variables de clase
-            """
-    
-            self._laberinto = laberinto
-            self._posicion_jugador = self._laberinto.obtener_posicion_inicial_jugador()
-            self._posicion_inicial = self._posicion_jugador
-            self._abiertos = deque([self._posicion_jugador])
-            self._meta = self._laberinto.obtener_posicion_meta()
-            self._opciones = opciones
-            self._camino_final = [(self._posicion_inicial, None)]
-        
-        def nombre_busqueda(self):
-            return "Busqueda En Anchura"
-        
-        def es_sucesor(self, candidato):
-            lista = list(self._abiertos)
+    def es_sucesor(self, candidato):
+        lista = list(self._abiertos)
+        for i in xrange(len(lista)):
+            if lista[i] == candidato:
+                return True
+        return False
+
+    def proxima_posicion(self):
+        mapa = self._laberinto.obtener_matriz_laberinto()
+        mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 4
+        self._posicion_jugador = self._abiertos.popleft()
+        mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
+        sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
+        for sucesor in sucesores:
+            if not self.es_sucesor(sucesor):
+                self._abiertos.append(sucesor)
+                self._camino_final.append((sucesor, self._posicion_jugador))
+\end{lstlisting}
+
+\subsubsection{Pseudocódigo ``Búsqueda por Costo Uniforme''}
+\begin{lstlisting}
+    def proxima_posicion(self):
+        mapa = self._laberinto.obtener_matriz_laberinto()
+        mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 4
+        nodo_actual = heappop(self._abiertos)
+        self._costo_actual = nodo_actual[0]
+        self._posicion_jugador = nodo_actual[1]
+        mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
+        sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
+        lista = list(self._abiertos)
+        for sucesor in sucesores:
+            costo = self._costo_actual + 1
+            flag = False
             for i in xrange(len(lista)):
-                if lista[i] == candidato:
-                    return True
-            return False
-    
-        def proxima_posicion(self):
-            mapa = self._laberinto.obtener_matriz_laberinto()
-            # Se libera la posicion actual. "4" significa "ya visitado"
-            mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 4
-            self._posicion_jugador = self._abiertos.popleft()
-            # Nueva posicion del jugador. "2" significa "jugador"
-            mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
-            sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
-            for sucesor in sucesores:
-                if not self.es_sucesor(sucesor):
-                    self._abiertos.append(sucesor)
-                    self._camino_final.append((sucesor, self._posicion_jugador))
-    
-    
-    class BusquedaEnProfundidad(Busqueda):
-        """Esta clase implementa busqueda en profundidad."""
-    
-        def __init__(self, laberinto, opciones):
-            """Crea una instancia de la clase BusquedaEnProfundidad.
-            
-            :param laberinto: Es un objeto de la clase Laberinto
-            :param opciones: Valores opcionales para inicializar las variables de clase
-            """
-    
-            self._laberinto = laberinto
-            self._posicion_jugador = self._laberinto.obtener_posicion_inicial_jugador()
-            self._posicion_inicial = self._posicion_jugador
-            self._abiertos = deque([self._posicion_jugador])
-            self._meta = self._laberinto.obtener_posicion_meta()
-            self._opciones = opciones
-            self._camino_final = [(self._posicion_inicial, None)]
-        
-        def nombre_busqueda(self):
-            return "Busqueda En Profundidad"
-        
-        def es_sucesor(self, candidato):
-            lista = list(self._abiertos)
-            for i in xrange(len(lista)):
-                if lista[i] == candidato:
-                    return True
-            return False
-    
-        def proxima_posicion(self):
-            mapa = self._laberinto.obtener_matriz_laberinto()
-            # Se libera la posicion actual. "4" significa "ya visitado"
-            mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 4
-            self._posicion_jugador = self._abiertos.pop()
-            # Nueva posicion del jugador. "2" significa "jugador"
-            mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
-            sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
-            for sucesor in sucesores:
-                if not self.es_sucesor(sucesor):
-                    self._abiertos.append(sucesor)
-                    self._camino_final.append((sucesor, self._posicion_jugador))
-    
-    
-    class BusquedaCostoUniforme(Busqueda):
-        """Esta clase implementa busqueda de costo uniforme."""
-    
-        def __init__(self, laberinto, opciones):
-            """Crea una instancia de la clase BusquedaCostoAnchura.
-            
-            :param laberinto: Es un objeto de la clase Laberinto
-            :param opciones: Valores opcionales para inicializar las variables de clase
-            """
-    
-            self._laberinto = laberinto
-            self._posicion_jugador = self._laberinto.obtener_posicion_inicial_jugador()
-            self._posicion_inicial = self._posicion_jugador
-            self._costo_actual = 0
-            self._abiertos = [(self._costo_actual, self._posicion_jugador)]
-            heapify(self._abiertos)
-            self._meta = self._laberinto.obtener_posicion_meta()
-            self._opciones = opciones
-            self._camino_final = [(self._posicion_inicial, None)]
-        
-        def nombre_busqueda(self):
-            return "Busqueda Costo Uniforme"
-        
-        def proxima_posicion(self):
-            mapa = self._laberinto.obtener_matriz_laberinto()
-            # Se libera la posicion actual. "4" significa "ya visitado"
-            mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 4
-            nodo_actual = heappop(self._abiertos)
-            self._costo_actual = nodo_actual[0]
-            self._posicion_jugador = nodo_actual[1]
-            # Nueva posicion del jugador. "2" significa "jugador"
-            mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
-            sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
-            lista = list(self._abiertos)
-            for sucesor in sucesores:
-                costo = self._costo_actual + 1
-                # Flag indica si es que existe o no ya en el heap el par (x,y).
-                flag = False
-                for i in xrange(len(lista)):
-                    if lista[i][1] == sucesor:
-                        flag = True
-                        if lista[i][0] >= costo:
-                            # Debe cambiar el costo.
-                            lista[i][0] = costo
-                            # Debo heapifiar.
-                            heapify(lista)
-                            # Esto es para reconstruir el camino.
-                            for j in xrange(0, len(self._camino_final)):
-                                if self._camino_final[j][0] == sucesor:
-                                    self._camino_final[j] = (sucesor, self._posicion_jugador)
-                # Finalmente, los que no existiesen se agregan.
-                if not flag:
-                    heappush(lista, [costo, sucesor])
-                    # Esto es para reconstruir el camino.
-                    self._camino_final.append((sucesor, self._posicion_jugador))
-            #Se actualiza el heap.
-            self._abiertos = lista
-    
-    
-    class BusquedaAEstrella(Busqueda):
-        """Esta clase implementa busqueda A* con una heuristica pasada por parametro."""
-    
-        def __init__(self, laberinto, opciones):
-            """Crea una instancia de la clase BusquedaCostoAnchura.
-    
-            :param laberinto: Es un objeto de la clase Laberinto
-            :param opciones: Valores opcionales para inicializar las variables de clase
-            """
-    
-            self._laberinto = laberinto
-            self._posicion_jugador = self._laberinto.obtener_posicion_inicial_jugador()
-            self._posicion_inicial = self._posicion_jugador
-            self._meta = self._laberinto.obtener_posicion_meta()
-            self._costo_actual = self._funcion_heuristica(self._posicion_inicial)
-            self._abiertos = [[self._costo_actual, self._posicion_jugador]]
-            heapify(self._abiertos)
-            self._opciones = opciones
-            self._camino_final = [(self._posicion_inicial, None)]
-        
-        def nombre_busqueda(self):
-            return "Busqueda A*"
-        
-        def _funcion_heuristica(self, sucesor):
-            dx = abs(sucesor[0] - self._meta[0])
-            dy = abs(sucesor[1] - self._meta[1])
-            # Distancia de Manhattan modificada!
-            return dx + dy + min(dx, dy)
-    
-        def proxima_posicion(self):
-            mapa = self._laberinto.obtener_matriz_laberinto()
-            # Se libera la posicion actual. "4" significa "ya visitado"
-            mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 4
-            nodo_actual = heappop(self._abiertos)
-            self._posicion_jugador = nodo_actual[1]
-            self._costo_actual = nodo_actual[0] - self._funcion_heuristica(self._posicion_jugador)
-            # Nueva posicion del jugador. "2" significa "jugador
-            mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
-            sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
-            lista = list(self._abiertos)
-            for sucesor in sucesores:
-                heuristica = self._funcion_heuristica(sucesor)
-                # Flag indica si es que existe o no ya en el heap el par (x,y).
-                flag = False
-                for i in xrange(len(lista)):
-                    if lista[i][1] == sucesor:
-                        flag = True
-                        if lista[i][0] >= self._costo_actual + 1 + heuristica:
-                            # Debe cambiar el costo.
-                            lista[i][0] = self._costo_actual + 1 + heuristica
-                            # Debo heapifiar.
-                            heapify(lista)
-                            # Esto es para reconstruir el camino.
-                            for j in xrange(0, len(self._camino_final)):
-                                if self._camino_final[j][0] == sucesor:
-                                    self._camino_final[j] = (sucesor, self._posicion_jugador)
-                # Finalmente, los que no existiesen se agregan.
-                if not flag:
-                    heappush(lista, [self._costo_actual + 1 + heuristica, sucesor])
-                    # Esto es para reconstruir el camino.
-                    self._camino_final.append((sucesor, self._posicion_jugador))
-    
-            #Se actualiza el heap.
-            self._abiertos = lista
+                if lista[i][1] == sucesor:
+                    flag = True
+                    if lista[i][0] >= costo:
+                        lista[i][0] = costo
+                        heapify(lista)
+                        for j in xrange(0, len(self._camino_final)):
+                            if self._camino_final[j][0] == sucesor:
+                                self._camino_final[j] = (sucesor, self._posicion_jugador)
+            if not flag:
+                heappush(lista, [costo, sucesor])
+                self._camino_final.append((sucesor, self._posicion_jugador))
+        self._abiertos = lista
 \end{lstlisting}
 
 
-\subsubsection{Código de la clase ``Despliegue''}
+\newpage
+\subsubsection{Pseudocódigo ``Búsqueda en Profundidad''}
 \begin{lstlisting}
-    class Despliegue:
-        def __init__(self, laberinto, busqueda, opciones):
-            """Crea una instancia de la clase Despliegue
-            
-            :param laberinto: Es un objeto de la clase Laberinto
-            :param busqueda: Es un objecto de la clase busqueda
-            :param opciones: Valores opcionales para inicializar las variables de clase
-            """
-            self._laberinto = laberinto
-            self._busqueda = busqueda
-            self._opciones = opciones
-            
-            self.title = "Busqueda del Minotauro - " + self._busqueda.nombre_busqueda()
-            self._width = self._laberinto.obtener_columnas() * 32
-            self._height = self._laberinto.obtener_filas() * 32
-    
-        @staticmethod
-        def _img_path():
-            """Retorna el path de las imagenes"""
-            pathfile = os.path.dirname(os.path.abspath(__file__))
-            return os.path.join(pathfile, "..", "img")
-    
-        def _dibujar(self):
-            """Dibuja el mapa"""
-            w = 16
-            h = (self._laberinto.obtener_filas() * 32 ) - 16
-            mapa = self._laberinto.obtener_matriz_laberinto()
-    
-            img_path = self._img_path()
-            grass_path = os.path.join(img_path, "grass.png")
-            bloque_path = os.path.join(img_path, "bloque.png")
-            ball_path = os.path.join(img_path, "ball.png")
-            migas_path = os.path.join(img_path, "migas.png")
-            minotauro_path = os.path.join(img_path, "minotauro.png")
-    
-            for f in xrange(self._laberinto.obtener_filas()):
-                for c in xrange(self._laberinto.obtener_columnas()):
-                    Image(grass_path, (w, h))
-                    if mapa[f][c] == 0:
-                        Image(bloque_path, (w, h))
-                    if mapa[f][c] == 2:
-                        Image(ball_path, (w, h))
-                    if mapa[f][c] == 3:
-                        Image(minotauro_path, (w, h))
-                    if mapa[f][c] == 4:
-                        Image(migas_path, (w, h))
-                    w += 32
-                w = 16
-                h -= 32
-        
-        def _dibujar_solucion(self):
-            """Dibuja el camino encontrado"""
-            posiciones = self._busqueda.reconstruir_camino()
-            camino_path = os.path.join(self._img_path(), "camino.png")
-            inicio = self._laberinto.obtener_filas() * 32 - 16
-            
-            for p in xrange(len(posiciones)):
-                h = inicio - posiciones[p][0] * 32
-                w = 16 + posiciones[p][1] * 32
-                Image(camino_path, (w, h))
-        
-        def comenzar(self):
-            """Inicia el despliegue del laberinto"""
-            try:
-                begin_graphics(width=self._width, height=self._height, title=self.title)
-                
-                while self._busqueda.hay_solucion():
-                    if self._busqueda.es_meta():
-                        break
-                    
-                    # Si no es meta buscar otro candidato
-                    self._busqueda.proxima_posicion()
-                    
-                    time.sleep(0.15)
-                    clear_screen()
-                    update_when('next_tick')
-                    self._dibujar()
-                
-                if not self._opciones.auto:
-                    # Se dibuja el camino recorrido solo antes de presionar una tecla
-                    self._dibujar_solucion()
-                    update_when('key_pressed')
-            except Exception, e:
-                print 'Un error ocurrio durante el dibujo: ', e
-                raise
-            finally:
-                end_graphics()
+    def es_sucesor(self, candidato):
+        lista = list(self._abiertos)
+        for i in xrange(len(lista)):
+            if lista[i] == candidato:
+                return True
+        return False
+
+    def proxima_posicion(self):
+        mapa = self._laberinto.obtener_matriz_laberinto()
+        mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 4
+        self._posicion_jugador = self._abiertos.pop()
+        mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
+        sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
+        for sucesor in sucesores:
+            if not self.es_sucesor(sucesor):
+                self._abiertos.append(sucesor)
+                self._camino_final.append((sucesor, self._posicion_jugador))
 \end{lstlisting}
 
+\subsubsection{Pseudocódigo ``Búsqueda A*''}
+\begin{lstlisting}
+    def _funcion_heuristica(self, sucesor):
+        """Este metodo calcula el costo heuristico del sucesor dado.
+        La heuristica utilizada es la distancia de Manhattan
+
+        :param sucesor: Es una tupla (x,y) con las coordenadas de la posicion.
+        """
+        dx = abs(sucesor[0] - self._meta[0])
+        dy = abs(sucesor[1] - self._meta[1])
+        heuristica = dx + dy
+        p = 0.001
+        return heuristica * (1 + p)
+
+    def proxima_posicion(self):
+        mapa = self._laberinto.obtener_matriz_laberinto()
+        mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 4
+        nodo_actual = heappop(self._abiertos)
+        self._posicion_jugador = nodo_actual[1]
+        self._costo_actual = nodo_actual[0] - self._funcion_heuristica(self._posicion_jugador)
+        mapa[self._posicion_jugador[0]][self._posicion_jugador[1]] = 2
+        sucesores = self._laberinto.obtener_posiciones_libres(self._posicion_jugador)
+        lista = list(self._abiertos)
+        for sucesor in sucesores:
+            heuristica = self._funcion_heuristica(sucesor)
+            flag = False
+            for i in xrange(len(lista)):
+                if lista[i][1] == sucesor:
+                    flag = True
+                    if lista[i][0] >= self._costo_actual + 1 + heuristica:
+                        lista[i][0] = self._costo_actual + 1 + heuristica
+                        heapify(lista)
+                        for j in xrange(0, len(self._camino_final)):
+                            if self._camino_final[j][0] == sucesor:
+                                self._camino_final[j] = (sucesor, self._posicion_jugador)
+            if not flag:
+                heappush(lista, [self._costo_actual + 1 + heuristica, sucesor])
+                self._camino_final.append((sucesor, self._posicion_jugador))
+
+        self._abiertos = lista
+\end{lstlisting}
+
+
+\newpage
 \subsection{Resultados Obtenidos}
-Se realizará un procedimiento estadístico ANOVA para analizar la diferencia en los tiempos medios de ejecución y el uso de memoria. Los datos en bruto se pueden observar en el apéndice C.
+A continuación se resumen los promedios de tiempo de ejecución (en segundos) obtenidos para cada algoritmo. Para la muestra se utilizó el mapa entregado inicialmente, se desactivó la parte gráfica y se el tamaño de muestra utilizado es $n = 10$. Los datos en bruto se pueden observar en el apéndice C.
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\textbf{BFS} & \textbf{DFS}  & \textbf{Costo Uniforme}   & \textbf{A*}   \\ \hline
+0.0009202 & 0.0003593 & 0.0010638 & 0.0004672
+\\ \hline
+\end{tabular}
+\caption{Tiempos de Ejecución promedio para cada Algoritmo.}
+\end{center}
+\end{table}
+
+En base a los promedios observados se puede ver que DFS entrega la búsqueda más eficiente. Seguido de la búsqueda A*, luego BFS y finalmente costo uniforme. La supremacía de la búsqueda en profundidad se puede deber a que el mapa en particular beneficia mucho a este tipo de estrategia. Su competidor más cercano (A*) pierde en eficiencia debido al costo de calcular la heurística y el costo del camino. En otro mapa (como el segundo mapa mostrado en el anexo A), la búsqueda en profundidad no sería tan eficiente, y es más, no retornaría un camino óptimo, debido a que avanzaría ciegamente sin preocuparse de la optimalidad.
+
+Por otra parte es interesante notar los tiempos de la búsqueda por costo uniforme y en anchura. La búsqueda por costo uniforme, para esta instancia del problema de búsqueda, es naturalmente menos eficiente, ya que al definirse el costo como la cantidad de movimientos realizados desde el inicio hasta la posición actual, lo único que se esta haciendo es calcular el nivel del nodo en el árbol de búsqueda, lo cual conlleva a realizar un recorrido por niveles del árbol, que es exactamente lo mismo que realiza la búsqueda en anchura, con la diferencia que la búsqueda en anchura no pierde el tiempo calculando costos ni utilizando una cola con prioridad para determinar que sucesor escoger.
+
+No se ha demostrado aquí la diferencia de tiempo producida por la elección de diferentes heurísticas, sin embargo, en la bibliografía revisada se indica que el uso de diferentes heurísticas provoca cambios en el rendimiento, idealmente la heurística debe ser fácil de calcular (se recomienda que tome un tiempo $O(1)$, aunque existen heurísticas que requieren más tiempo) y debe ser lo más cercana posible al costo real.
+
+Se demostrará mediante el procedimiento estadístico ANOVA, realizado en Excel, que existe una diferencia entre los tiempos de ejecución de los algoritmos. Se muestra la tabla generada a continuación.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale = 0.5]{images/ANOVA}
+        \caption{Tabla ANOVA}
+    \end{center}
+\end{figure}
+
+En base al \textbf{valor p} que es menor a $0.01$ se puede afirmar que existe una diferencia significativa entre los tiempos de ejecución de los algoritmos. Esta conclusión es válida al menos para el mapa utilizado en las pruebas. Se requeriría un generador de mapas aleatorios para realizar un experimento más potente.
 
 %----------------------------------------------------------------------------------------
 % SECTION 3
 %----------------------------------------------------------------------------------------
 \newpage
-\section{Resultados y conclusiones}
-Se ha completado satisfactoriamente el objetivo del taller I que correspondía a resolver el problema del laberinto utilizando los diferentes enfoques de resolución vistos en cátedra. Este trabajo ha contribuido en el entendimiento de las técnicas de diseño de algoritmos de búsqueda no informada aprendidas mediante su implementación.
+\section{Resultados y Conclusiones}
+Se ha completado satisfactoriamente el objetivo del taller I que correspondía a resolver el problema del laberinto utilizando los diferentes enfoques de resolución vistos en cátedra. Este trabajo ha contribuido en mejorar el entendimiento de las técnicas de diseño de algoritmos de búsqueda aprendidos en clases mediante su implementación.
 
-Se ha mostrado además la clara diferencia que existe en los tiempos de ejecución entre los distintos enfoques de búsquedas, como se ha comprobado con el análisis presentado.  Además se ha observado la diferencia que produce la elección de una heurística apropiada en el rendimiento del algoritmo A*.
+Se ha mostrado además la clara diferencia que existe en los tiempos de ejecución entre los distintos enfoques de búsquedas, como se ha comprobado con el análisis presentado.  Además se ha mencionado la diferencia que produce la elección de una heurística apropiada en el rendimiento del algoritmo A*. 
+
+Se debe mencionar también el comportamiento de la búsqueda en profundidad que en algunos casos logra superar la eficiencia de A*, sin embargo, como se puede ver con uno de los laberintos en el apéndice A, el camino que encontraría no siempre es óptimo (se dará muchas más vueltas de las necesarias).
+
+A pesar de su rendimiento levemente inferior en la muestra tomada, se recomendaría utilizar A* (de hecho es muy utilizado en aplicaciones de búsqueda de caminos en vídeo juegos debido a su eficiencia), ya que a diferencia de búsqueda en profundidad, no caerá en caminos no óptimos, asumiendo que las heurísticas están bien definidas. 
 
 Una observación que se debe hacer es reconsiderar el uso de la búsqueda por costo uniforme, dada la definición del costo como la cantidad de movimientos desde la posición inicial, sigue que su comportamiento es prácticamente idéntico al de búsqueda en anchura, ya que procederá a buscar por niveles. Sería diferente si existiesen diferentes tipos de suelo en el laberinto que tuviesen costos variables asociados a estos. También se debe mencionar que la búsqueda por costo uniforme es básicamente una búsqueda A* con una heurística de valor nulo,.
 
-Se debe mencionar también el comportamiento de la búsqueda en profundidad que en algunos casos logra superar la eficiencia de A*, sin embargo, como se puede ver con uno de los laberintos en el apéndice A, el camino que encuentra no siempre es óptimo.
-
 Un interesante problema que considerar sería agregar un elemento dinámico al ambiente, por ejemplo, un minotauro que recorriese el laberinto en busca de su víctima Teseo. Otro interesante agregado al problema, que no se realizó por falta de tiempo, sería un generador dinámico de laberintos aleatorios, con el objetivo de que las muestras utilizadas para los tiempos fueran totalmente aleatorias.
 
-También es posible generar una extensión de los algoritmos que encuentre todas las soluciones, sin embargo, se consideró fuera del alcance de este trabajo. 
+También es posible generar una extensión de los algoritmos que encuentren todas las soluciones, sin embargo, se consideró fuera del alcance de este trabajo. 
 
 Por último queda mencionar los problemas encontrados durante el desarrollo del taller, a decir, la identificación de las posiciones ya visitadas, que correspondía a un problema del código original, y la reconstrucción de los caminos de solución, que por la estructura que tenía el código fue difícil de implementar.
 
@@ -1100,13 +774,14 @@ Por último queda mencionar los problemas encontrados durante el desarrollo del 
     
     \newpage
 
-  \section{Admisibilidad de las Heurísticas}
-    En este anexo se presentan las demostraciones de admisibilidad de las heurísticas propuestas. La admisibilidad de las heurísticas garantiza la optimalidad en el algoritmo A*.
+  \section{Admisibilidad de la Heurística}
+  \subsection{Definiciones Previas}
+    En este anexo se presentan las demostraciones de admisibilidad de la heurística propuesta. La admisibilidad de las heurísticas garantiza la optimalidad en el algoritmo A*.
     Se debe demostrar que las heurísticas propuestas son consistentes, esto implica que es admisible, y por tanto el algoritmo A* retornará una solución óptima, se define una heurística consistente como:
-\begin{align}
+\begin{align*}
 h(X) \leq c(X,P) + h(P)\\
 h(G) = 0
-\end{align}
+\end{align*}
 
 Donde se tiene:
 \begin{itemize}
@@ -1117,21 +792,19 @@ Donde se tiene:
 \item $c(N,P)$ es el costo de alcanzar el nodo $P$ desde $N$.
 \end{itemize}
 
-Notar que todas las heurísticas definidas en este taller cumplen con la condición $h(G)$.
+\subsection{Distancia de Manhattan}
+Primero que todo motar que la heurística cumple con la condición $h(G) = 0$.
 
-Para todas las demostraciones se definen los siguientes términos:
-\begin{align}
+Ahora, para la demostración se definen los siguientes términos:
+\begin{align*}
     dx_1 = \abs{x_n-x_f}\\
   dy_1 = \abs{y_n-y_f}\\
   dx_2 = \abs{x_{n+1}-x_f}\\
   dy_2 = \abs{y_{n+1}-y_f}
-\end{align}
+\end{align*}
 
 Donde $X_n = (x_n,y_n)$, $X_{n+1} = (x_{n+1},y_{n+1})$ y $G = (x_f,y_f)$. 
-
-\subsection{Distancia de Manhattan}
-
-Por demostrar: $dx1 + dy1 \leq 1 + dx2 + dy2$
+Se pretende demostrar que: $dx1 + dy1 \leq 1 + dx2 + dy2$
 
 Cualquier movimiento realizado conserva una de las coordenadas y modifica otra, por lo tanto $dx_1 = dx_2$ o $dy_1 = dy_2$.
 
@@ -1149,52 +822,11 @@ La distancia pudo disminuir en a lo más una unidad, en cuyo caso:
 \begin{displaymath}
 dx_1 +dy_1 = dx_2 + dy_2 + 1
 \end{displaymath}
-Que también está cubierto por el caso $\leq$, por lo tanto la distancia de Manhattan es consistente (y por lo tanto admisible) y al utilizar la búsqueda A* con esta heurística se obtendrá una solución óptima.
-
-\subsection{Distancia de Manhattan Modificada}
-Por demostrar: $dx_1 + dy_1 + \min{(dx_1,dy_1)} \leq dx_2 + dy_2 + \min{(dx_2,dy_2)} + 2$
-
-Cualquier movimiento conserva una de las coordenadas y modifica otro, por lo tanto se puede asumir que $dx1 = dx2$ o $dy1 = dy2$, sin pérdida de generalidad se asume que $dx_1 = dx_2$.
-
-Luego:
-\begin{displaymath}
-  dx_1 + dy_1 + \min{(dx_1,dy_1)} = dx_2 + dy_1 + \min{(dx_2,dy_1)}
-\end{displaymath}
-
-Luego puede que $dy_2$ haya aumentado en 1 respecto a $dy_1$, en cuyo caso sigue que:
-\begin{displaymath}
-  dx_1 + dy_1 + \min{(dx_1,dy_1)} \leq dx_2 + dy_2 + \min{(dx_2,dy_2)}
-\end{displaymath}
-
-
-Notar que $\min{(dx_1,dy_1)} \leq \min{(dx_2,dy_2)}$, pues $dx_1 = dx_2$ y $dy_1 \leq dy_2$, en el mejor caso quedo igual, y en el peor caso aumentó en 1. 
-
-Claramente se tiene que:
-\begin{displaymath}
-  dx_1 + dy_1 + \min{(dx_1,dy_1)} \leq dx_2 + dy_2 + \min{(dx_2,dy_2)} + 1
-\end{displaymath}
-
-Claramente la desigualdad se sigue cumpliendo si se suma 1 para alcanzar el valor de 2 requerido en el lado derecho.
-
-Por otra parte, el valor del mínimo puede haber disminuido en 1, en cuyo caso:
-
-\begin{displaymath}
-  dx_1 + dy_1 + \min{(dx_1,dy_1)} = dx_2 + dy_2 + \min{(dx_2,dy_1)} + 1
-\end{displaymath}
-
-Se cambiará el lado derecho ahora por: $dx_2 + dy_2 + \min{(dx_2,dy_2)} + 1$
-
-Notar que $\min{(dx_2,dy_2)}$ puede haber quedado igual que $\min{(dx_1,dy_1)}$ o en el peor caso haber disminuido en 1, para asegurarse que la relación es $\leq$ se debe sumar 1 al lado derecho.
-\begin{displaymath}
-  dx_1 + dy_1 + \min{(dx_1,dy_1)} \leq dx_2 + dy_2 + \min{(dx_2,dy_2)} + 2
-\end{displaymath}
-Por lo tanto la distancia de Manhattan modificada es consistente (y por lo tanto admisible) y al utilizar la búsqueda A* con esta heurística se obtendrá una solución óptima.
-    
-Notar que esto no se cumpliría si es que se usase un costo unitario.
+Que también está cubierto por el caso $\leq$, por lo tanto la distancia de Manhattan es consistente (y por lo tanto admisible) y al utilizar la búsqueda A* con esta heurística se obtendrá una solución óptima. Notar que la demostración se ha hecho sin considerar el factor rompe empates, debido a que este no conserva la optimalidad.
 
 \newpage
   \section{Tablas de Datos}
-  En este anexo se presentan las tablas de datos referentes a los tiempos de ejecución %y uso de memoria 
+  En este anexo se presentan las tablas de datos referentes a los tiempos de ejecución (en segundos) %y uso de memoria 
   de cada uno de los algoritmos implementados.
   \subsection{Tiempo de Ejecución}
 
@@ -1217,27 +849,6 @@ Notar que esto no se cumpliría si es que se usase un costo unitario.
 \caption{Tiempos de Ejecución para cada Algoritmo.}
 \end{center}
 \end{table}
-
-%  \subsection{Uso de Memoria}
-%\begin{table}[H]
-%\begin{center}
-%\begin{tabular}{|l|l|l|l|l|}
-%\hline
-%\textbf{Muestra} & \textbf{BFS} & \textbf{DFS} & \textbf{Co%sto Uniforme} & \textbf{A*} \\ \hline
-%1                &              &              &           %              &             \\ \hline
-%2                &              &              &           %              &             \\ \hline
-%3                &              &              &           %              &             \\ \hline
-%4                &              &              &           %              &             \\ \hline
-%5                &              &              &           %              &             \\ \hline
-%6                &              &              &           %              &             \\ \hline
-%7                &              &              &           %              &             \\ \hline
-%8                &              &              &           %              &             \\ \hline
-%9                &              &              &           %              &             \\ \hline
-%10               &              &              &           %              &             \\ \hline
-%\end{tabular}
-%\caption{Uso de Memoria para cada Algoritmo.}
-%\end{center}
-%\end{table}
 
 \end{appendices}
 
