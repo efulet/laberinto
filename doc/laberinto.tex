@@ -54,6 +54,15 @@
         keywordstyle=\color{blue}
 \bfseries}
 
+% Metadata info
+\usepackage{ifpdf}
+\ifpdf
+  \pdfinfo{
+    /Author (Brian Keith;Exequiel Fuentes)
+    /Title (La Aventura de Teseo - Resolucion de Problemas Basados en Busqueda)
+    /Keywords (Busqueda En Anchura;Busqueda En Profundidad;Busqueda Costo Uniforme;Busqueda A*)
+  }
+\fi
 
 \setlength\parindent{0pt} % Removes all indentation from paragraphs
 
@@ -130,16 +139,16 @@ De manera formal se define la búsqueda como el proceso de examinar diferentes p
 Los algoritmos implementados en este taller encuentran una solución al problema, para el caso de búsqueda en profundidad el camino encontrado puede no ser óptimo, pero para todos los demás se encuentra garantizado que la solución sea óptima. Se utilizó además la librería GASP de Python para mostrar el funcionamiento de los algoritmos gráficamente.
 
 \subsection{Contexto del problema}
-El problema propuesto consiste en ayudar a Teseo a encontrar la ruta más corta hacía el minotauro en el laberinto que construyó Dédalo. Una vez encontrado el minotauro, Teseo debe matarle y luego salir por la misma ruta por la que entró. Teseo dispone de la ayuda de Ariadna, una de las hijas del rey Minos, quien le ha enseñado como asesinar a la gran bestia, además, Teseo dispone de un ovillo mágico que le permite guiarse a través del laberinto, marcando la ruta que ha tomado. 
+El problema propuesto consiste en ayudar a Teseo a encontrar la ruta más corta hacía el Minotauro en el laberinto que construyó Dédalo. Una vez encontrado el Minotauro, Teseo debe matarle y luego salir por la misma ruta por la que entró. Teseo dispone de la ayuda de Ariadna, una de las hijas del rey Minos, quien le ha enseñado como asesinar a la gran bestia, además, Teseo dispone de un ovillo mágico que le permite guiarse a través del laberinto, marcando la ruta que ha tomado. 
 
-Se debe modelar el enunciado propuesto como un \textbf{problema de búsqueda} y debe resolverse utilizando los distintos algoritmos vistos en clase. Se pretende con esta experiencia comparar el rendimiento de las diferentes estrategias de búsqueda en el problema de Teseo y el minotauro.
+Se debe modelar el enunciado propuesto como un \textbf{problema de búsqueda} y debe resolverse utilizando los distintos algoritmos vistos en clase. Se pretende con esta experiencia comparar el rendimiento de las diferentes estrategias de búsqueda en el problema de Teseo y el Minotauro.
 
 \subsection{Experiencias Relacionadas}
 Existe una gran cantidad de material referente al tema de búsqueda en internet, los problemas clásicos presentados corresponden a las N-reinas, el puzzle 8 (y sus extensiones), y por supuesto, el laberinto.
 
 Se han encontrado varias experiencias similares al problema del laberinto. Los algoritmos de búsqueda de camino o ``pathfinding'' se utilizan mucho en la programación de vídeo juegos (A* es el algoritmo que se utiliza generalmente para esto). Uno de los problemas similares encontrados consiste en dotar a los fantasmas del juego ``Pacman'' de una rutina de búsqueda basada en el algoritmo A* para encontrar la mejor ruta con la que atacar al jugador. También se debe mencionar el artículo sobre búsqueda de caminos en laberintos de estructura desconocida, donde se hace uso de diferentes algoritmos de búsqueda no informada para encontrar la solución.
 
-Se han encontrado también numerosas soluciones del problema de búsqueda de caminos en laberintos (las cuáles se encuentran referenciadas en la bibliografía). La implementación del taller se ha hecho en base de las soluciones encontradas en la web y del código visto en clases. Se ha utilizado programación orientada a objetos para el desarrollo del taller. Una de las soluciones encontradas utilizaba orientación a objetos, sin embargo, la lógica no se encontraba separada de la presentación. Se han mejorado las soluciones encontradas ya que se ha separado la lógica de la presentación. 
+Se han encontrado también numerosas soluciones del problema de búsqueda de caminos en laberintos (las cuáles se encuentran referenciadas en la bibliografía). La implementación de los algoritmos se ha hecho en base de las soluciones encontradas en la Web y del código visto en clases. Se ha utilizado programación orientada a objetos para el desarrollo del taller. Una de las soluciones encontradas utilizaba orientación a objetos, sin embargo, la lógica no se encontraba separada de la presentación. Se han mejorado las soluciones encontradas ya que se ha separado la lógica de la presentación. 
 
 \subsection{Agentes Inteligentes}
 
@@ -150,13 +159,13 @@ Se han implementado dos tipos de agentes inteligentes en este taller:
 \end{itemize}
 
 \subsubsection{Percepciones}
-El agente recibirá como percepciones su posición actual, las posibles posiciones a donde puede moverse y además sabe la posición del minotauro. 
+El agente recibirá como percepciones su posición actual, las posibles posiciones a donde puede moverse y además sabe la posición del Minotauro. 
 
 \subsubsection{Acciones}
 Las acciones que puede realizar el agente son movimientos, puede moverse en las cuatro direcciones básicas (arriba, abajo, izquierda y derecha), a no ser que exista una muralla que se lo impida.
 
 \subsubsection{Objetivos}
-El objetivo del agente es recorrer el laberinto para encontrar al minotauro y obtener el camino más corto desde la entrada hasta él. Una vez encontrado el minotauro debe encontrar el camino más corto para la salida, sin embargo, como para esta versión del problema, la salida corresponde a la misma entrada, se debe utilizar el mismo camino original.
+El objetivo del agente es recorrer el laberinto para encontrar al Minotauro y obtener el camino más corto desde la entrada hasta él. Una vez encontrado el Minotauro debe encontrar el camino más corto para la salida, sin embargo, como para esta versión del problema, la salida corresponde a la misma entrada, se debe utilizar el mismo camino original.
 
 \subsubsection{Ambiente}
 Se describe a continuación el ambiente, para ello se responde las siguientes preguntas:
@@ -169,7 +178,7 @@ Si bien el agente no puede percibir todo el laberinto desde su posición actual,
 \item ¿Las acciones del agente en un estado actual determinan completamente el estado resultante?\\
 Sí, las acciones que realiza el agente determinan por completo el siguiente estado, no existen elementos estocásticos y aleatorios en este ambiente, por lo tanto, el ambiente es \textbf{determinístico}.
 
-\item ¿El estado del entorno puede cambiar mientras que el agente delibera?\\ El entorno no cambia mientras el agente delibera su siguiente movimiento, pues tanto la posición del minotauro como la estructura del laberinto se preservan a lo largo del tiempo, por lo tanto el ambiente es \textbf{estático}. (Diferente sería el problema si es que el minotauro se moviese a lo largo del laberinto en busca de Teseo)
+\item ¿El estado del entorno puede cambiar mientras que el agente delibera?\\ El entorno no cambia mientras el agente delibera su siguiente movimiento, pues tanto la posición del Minotauro como la estructura del laberinto se preservan a lo largo del tiempo, por lo tanto el ambiente es \textbf{estático}. (Diferente sería el problema si es que el Minotauro se moviese a lo largo del laberinto en busca de Teseo)
 
 \item ¿Los conjuntos de posibles percepciones y/o acciones son discretas?\\
 Los posibles estados del ambiente, al igual que las posibles acciones que puede tomar el agente, forman un conjunto discreto. Por lo tanto el ambiente es \textbf{discreto}.
@@ -185,7 +194,8 @@ Se tiene un único agente actuando en el ambiente, por lo tanto, el ambiente es 
 
 \section{Diseño de un Agente}
 
-\subsection{Definición formal del problema}
+\begin{description}
+  \item[Definición formal del problema] \hfill \\
 Se definirá primero formalmente el problema de búsqueda de camino en el laberinto será definido de la siguiente forma:
 
 \begin{itemize}
@@ -198,7 +208,6 @@ Se definirá primero formalmente el problema de búsqueda de camino en el laberi
 \end{itemize}
 
 
-\begin{description}
   \item[Representación del Laberinto] \hfill \\
   Antes de diseñar el agente propiamente tal, se debe definir una representación para el ambiente. El laberinto es un tablero que se representa mediante una matriz $M$ de dimensiones $N \times M$. Cada entrada $(x,y)$ de la matriz representa una posición en el tablero de laberinto. En cada posición del laberinto se puede tener uno de los siguientes elementos:
     \begin{itemize}
@@ -217,7 +226,8 @@ Se definirá primero formalmente el problema de búsqueda de camino en el laberi
     EstadoInicial := \left(X = S, M = M_0\right)
   \end{displaymath}
   Es decir, el agente se encuentra en el estado inicial y el laberinto se encuentra sin cambios.
-  
+
+    \newpage  
     \item[Acciones] \hfill \\
   El agente puede realizar un único tipo de acción desde su posición actual $(x,y)$. La acción se llama ``Mover'' y se representa con la letra $m$, definida a continuación:
   \begin{center}
@@ -259,7 +269,8 @@ Se muestra a continuación el método que genera los posibles sucesores en una p
   \end{lstlisting}
   
 Los vectores $deltaf$ y $deltac$ almacenan los posibles movimientos, es decir: $\{(-1, 0), (0, -1), (1, 0), (0, 1)\}$ y al iterarse sobre ellos se puede ir generando los diferentes movimientos. Notar que para la implementación, cambiar el orden en que se genera los vectores afecta los resultados de la búsqueda en profundidad, debido a que esta siempre intentará probar con el primer movimiento, a diferencia de las otras búsquedas que se utilizan otros criterios.
-  
+
+    \newpage  
     \item[Modelo de transición] \hfill \\
     El estado resultante $(X_{n+1},M_{n+1})$ de aplicar la acción $m(dx,dy)$ sobre un estado $(X_{n},M{n})$ del sistema se define de la siguiente forma:
     \begin{displaymath}
@@ -341,6 +352,7 @@ Además A* será O(n) en tiempo y espacio en el mejor caso, cuando se tiene una 
 
 \newpage
 \subsection{Implementación}
+Se presentan los diagramas correspondientes a las clases de búsqueda para facilitar la comprensión del código desarrollado. Se presentan los algoritmos desarrollados como una mezcla de pseudocódigo y Python en las siguientes secciones.
 \subsubsection{Diagramas de Clases}
 \begin{figure}[ht]
     \begin{center}
@@ -353,13 +365,13 @@ Además A* será O(n) en tiempo y espacio en el mejor caso, cuando se tiene una 
   \centering
     \begin{minipage}{.5\textwidth}
         \centering
-        \includegraphics[width=0.5\linewidth]{images/diagram_bea}
+        \includegraphics[width=0.45\linewidth]{images/diagram_bea}
         \captionof{figure}{Búsqueda en Anchura}
     \end{minipage}%
     \begin{minipage}{.5\textwidth}
         \centering
-        \includegraphics[width=0.5\linewidth]{images/diagram_bep}
-        \captionof{figure}{Búsqueda en Anchura}
+        \includegraphics[width=0.45\linewidth]{images/diagram_bep}
+        \captionof{figure}{Búsqueda en Profundidad}
     \end{minipage}
 \end{figure}
 
@@ -368,21 +380,18 @@ Además A* será O(n) en tiempo y espacio en el mejor caso, cuando se tiene una 
   \centering
     \begin{minipage}{.5\textwidth}
         \centering
-        \includegraphics[width=0.5\linewidth]{images/diagram_bcu}
+        \includegraphics[width=0.45\linewidth]{images/diagram_bcu}
         \captionof{figure}{Búsqueda por Costo Uniforme}
     \end{minipage}%
     \begin{minipage}{.5\textwidth}
         \centering
-        \includegraphics[width=0.5\linewidth]{images/diagram_bae}
+        \includegraphics[width=0.45\linewidth]{images/diagram_bae}
         \captionof{figure}{Búsqueda A*}
     \end{minipage}
 \end{figure}
 
 
-
-
-
-\subsubsection{Pseudocódigo ``Clase Abstracta Búsqueda''}
+\subsubsection{Pseudocódigo para la clase abstracta ``Búsqueda''}
 \begin{lstlisting}
     def es_meta(self):
         """Comprueba si el jugador llego a la meta."""
@@ -563,21 +572,24 @@ En base al \textbf{valor p} que es menor a $0.01$ se puede afirmar que existe un
 %----------------------------------------------------------------------------------------
 \newpage
 \section{Resultados y Conclusiones}
-Se ha completado satisfactoriamente el objetivo del taller I que correspondía a resolver el problema del laberinto utilizando los diferentes enfoques de resolución vistos en cátedra. Este trabajo ha contribuido en mejorar el entendimiento de las técnicas de diseño de algoritmos de búsqueda aprendidos en clases mediante su implementación.
+Se ha completado satisfactoriamente el objetivo del taller I que correspondía a resolver el problema del laberinto utilizando los diferentes enfoques de resolución vistos en cátedra. Este trabajo ha contribuido en mejorar el entendimiento de las técnicas de diseño de algoritmos de búsqueda aprendidos en clases mediante su implementación. Además, ha permitido profundizar el conocimiento adquirido en cátedra, ya que el desarrollo del taller ha requerido de una extensa recopilación bibliográfica del tema y de posibles implementaciones.
 
-Se ha mostrado además la clara diferencia que existe en los tiempos de ejecución entre los distintos enfoques de búsquedas, como se ha comprobado con el análisis presentado.  Además se ha mencionado la diferencia que produce la elección de una heurística apropiada en el rendimiento del algoritmo A*. 
+Se ha mostrado además la clara diferencia que existe en los tiempos de ejecución entre los distintos enfoques de búsquedas, como se ha comprobado con el procedimiento estadístico ANOVA realizado para comparar los tiempos de cada algoritmo. Además se ha mencionado la diferencia que produce la elección de una heurística apropiada en el rendimiento del algoritmo A*, se consideró utilizar la distancia Euclídeana o la distancia de Chebyshev, sin embargo, la revisión de la bibliografía mostró que la heurística apropiada para esta definición del problema del laberinto correspondía a la distancia de Manhattan. Cabe destacar que se agregó un factor rompe empates a la heurística con el objetivo de mejorar su eficiencia, el uso de este rompe empates reduce significativamente la cantidad de posiciones buscadas antes de encontrar el camino. El problema de usar este factor es que se pierde la optimalidad, sin embargo, la probabilidad que la heurística falle en encontrar la solución óptima con esta modificación es lo suficientemente baja para no ser significativa. 
 
-Se debe mencionar también el comportamiento de la búsqueda en profundidad que en algunos casos logra superar la eficiencia de A*, sin embargo, como se puede ver con uno de los laberintos en el apéndice A, el camino que encontraría no siempre es óptimo (se dará muchas más vueltas de las necesarias).
+Se debe mencionar también el comportamiento de la búsqueda en profundidad que en algunos casos logra superar la eficiencia de A*, sin embargo, como se puede ver con uno de los laberintos (mapa 2) en el apéndice A, el camino que encontraría no siempre es óptimo, pues el algoritmo realiza más búsquedas de las necesarias.
 
-A pesar de su rendimiento levemente inferior en la muestra tomada, se recomendaría utilizar A* (de hecho es muy utilizado en aplicaciones de búsqueda de caminos en vídeo juegos debido a su eficiencia), ya que a diferencia de búsqueda en profundidad, no caerá en caminos no óptimos, asumiendo que las heurísticas están bien definidas. 
+A pesar de su rendimiento levemente inferior en la muestra tomada, se recomendaría utilizar A* ya que a diferencia de la búsqueda en profundidad, esta no caerá en caminos no óptimos, asumiendo que las heurísticas están bien definidas. En la literatura se puede encontrar que A* es muy utilizado para búsqueda de caminos en vídeo juegos debido a su eficiencia. Se ha logrado comprobar empíricamente utilizando diferentes configuraciones de mapas que A* logra mejores resultados buscando el camino óptimo.
 
-Una observación que se debe hacer es reconsiderar el uso de la búsqueda por costo uniforme, dada la definición del costo como la cantidad de movimientos desde la posición inicial, sigue que su comportamiento es prácticamente idéntico al de búsqueda en anchura, ya que procederá a buscar por niveles. Sería diferente si existiesen diferentes tipos de suelo en el laberinto que tuviesen costos variables asociados a estos. También se debe mencionar que la búsqueda por costo uniforme es básicamente una búsqueda A* con una heurística de valor nulo,.
+Una observación que se debe hacer es reconsiderar el uso de la búsqueda por costo uniforme, dada la definición del costo como la cantidad de movimientos desde la posición inicial, sigue que su comportamiento es prácticamente idéntico al de búsqueda en anchura, ya que procederá a buscar por niveles. Sería diferente si existiesen diferentes tipos de suelo en el laberinto que tuviesen costos variables asociados a estos. También se debe mencionar que la búsqueda por costo uniforme es básicamente una búsqueda A* con una heurística de valor nulo.
 
-Un interesante problema que considerar sería agregar un elemento dinámico al ambiente, por ejemplo, un minotauro que recorriese el laberinto en busca de su víctima Teseo. Otro interesante agregado al problema, que no se realizó por falta de tiempo, sería un generador dinámico de laberintos aleatorios, con el objetivo de que las muestras utilizadas para los tiempos fueran totalmente aleatorias.
+Un interesante problema a considerar sería agregar un elemento dinámico al ambiente, por ejemplo, un minotauro que recorriese el laberinto en busca de su víctima Teseo. Otro interesante agregado al problema, que no se realizó por falta de tiempo, sería un generador dinámico de laberintos aleatorios, con el objetivo de que las muestras utilizadas para los tiempos fueran totalmente aleatorias.
 
 También es posible generar una extensión de los algoritmos que encuentren todas las soluciones, sin embargo, se consideró fuera del alcance de este trabajo. 
 
-Por último queda mencionar los problemas encontrados durante el desarrollo del taller, a decir, la identificación de las posiciones ya visitadas, que correspondía a un problema del código original, y la reconstrucción de los caminos de solución, que por la estructura que tenía el código fue difícil de implementar.
+El uso de Python y la librería GASP en el desarrollo del taller facilitó bastante la implementación de los algoritmos, ya que la sintaxis del lenguaje es muy similar al mismo pseudocódigo de los algoritmos. El único problema que presentó la librería GASP fue que no se pudo instalar en Windows, sin embargo, para evitar problemas con las instalaciones se realizó toda la implementación en un ambiente Linux.
+
+Por último, queda por mencionar los problemas encontrados durante el desarrollo del taller, a decir, la identificación de las posiciones ya visitadas, que correspondía a un problema del código original, y la reconstrucción de los caminos de solución, que por la estructura que tenía el código presento una dificultad al momento de la implementación. En este contexto, se realizaron diversas optimizaciones al código original, a decir, se separó el despliegue del mapa de la lógica de la búsqueda, el código original presentaba algunos problemas en la implementación del despliegue del mapa los cuales fueron solucionados. Se definió una clase abstracta- aunque en Python no existe esta definición porque no hay una diferencia entre tipo de clases-  para definir e implementar los métodos comunes que existen entre los diferentes tipos de búsquedas, esto permitió ahorrar lineas de código y tiempo durante el desarrollo.
+
 
 %----------------------------------------------------------------------------------------
 % BIBLIOGRAPHY
@@ -623,6 +635,7 @@ Por último queda mencionar los problemas encontrados durante el desarrollo del 
     
     \bibitem{13} {\em Is there any simple way to benchmark python script?} Recuperado Junio 18, 2014 desde http://stackoverflow.com/questions/1593019/is-there-any-simple-way-to-benchmark-python-script
 
+    \bibitem{14} Canavos, G. C., \& Medal, E. G. U. (1987). {\em Probabilidad y estadística.} McGraw Hill.
 
 \end{thebibliography}
 

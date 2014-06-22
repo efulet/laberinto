@@ -26,14 +26,14 @@ Este programa puede ejecutarse de la siguiente manera:
 Las busquedas pueden elegirse con las siguientes opciones, por defecto se 
 ejecuta Busqueda en Anchura:
   
-  * BusquedaEnAnchura:
+  * Busqueda En Anchura:
     $> ./bin/laberinto.sh -bea
 
-  * BusquedaEnProfundidad:
+  * Busqueda En Profundidad:
     $> ./bin/laberinto.sh -bep
 
-  * BusquedaCostoUniforme:
+  * Busqueda Costo Uniforme:
     $> ./bin/laberinto.sh -bcu
 
-  * BusquedaA*:
+  * Busqueda A*:
     $> ./bin/laberinto.sh -bae
