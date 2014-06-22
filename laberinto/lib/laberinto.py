@@ -62,10 +62,10 @@ class Laberinto:
         lineas = [linea.strip() for linea in open(self._mapa_path)]
 
         # Transforma un caracter en una representacion numerica. Donde:
-        # "#" => paredes
-        # "." => caminos
-        # "T" => jugador
-        # "S" => salida
+        # # => Define una pared del laberinto
+        # . => Define un camino libre
+        # D => Define a Dedalo (el inicio y posterior salida)
+        # M => Define al Minotauro
         mapa = []
         for i in xrange(len(lineas)):
             lista = []
@@ -76,9 +76,9 @@ class Laberinto:
                     lista.append(0)
                 elif cadena[j] == ".":
                     lista.append(1)
-                elif cadena[j] == "T":
+                elif cadena[j] == "D":
                     lista.append(2)
-                elif cadena[j] == "S":
+                elif cadena[j] == "M":
                     lista.append(3)
 
             mapa.append(lista)
@@ -139,9 +139,9 @@ class Laberinto:
                 elif self._mapa[f][c] == 1:
                     mapa_str += "  "
                 elif self._mapa[f][c] == 2:
-                    mapa_str += "T "
+                    mapa_str += "D "
                 elif self._mapa[f][c] == 3:
-                    mapa_str += "S "
+                    mapa_str += "M "
                 elif self._mapa[f][c] == 4:
                     mapa_str += "* "
                 elif self._mapa[f][c] == 5:
