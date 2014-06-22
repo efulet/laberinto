@@ -241,6 +241,11 @@ class BusquedaAEstrella(Busqueda):
         return "Busqueda A*"
     
     def _funcion_heuristica(self, sucesor):
+        """Este metodo calcula el costo heuristico del sucesor dado.
+        La heuristica utilizada es la distancia de Manhattan
+
+        :param sucesor: Es una tupla (x,y) con las coordenadas de la posicion.
+        """
         dx = abs(sucesor[0] - self._meta[0])
         dy = abs(sucesor[1] - self._meta[1])
         # Distancia de Manhattan!
