@@ -32,6 +32,9 @@
 \usepackage[titletoc,toc,title]{appendix}
 \usepackage{titlepic}
 
+\usepackage{caption}
+\usepackage{subcaption}
+
 \usepackage{color}
 \usepackage[table,xcdraw]{xcolor}
 
@@ -531,7 +534,11 @@ Además A* será O(n) en tiempo y espacio en el mejor caso, cuando se tiene una 
         busquedas especificas. El fin de esta clase es estandarizar la implementacion
         de sus clases hijas.
         """
-    
+        
+        def nombre_busqueda(self):
+            """Retorna el tipo de busqueda."""
+            raise NotImplementedError
+        
         def es_meta(self):
             """Comprueba si el jugador llego a la meta."""
             return self._posicion_jugador == self._meta
@@ -592,7 +599,10 @@ Además A* será O(n) en tiempo y espacio en el mejor caso, cuando se tiene una 
             self._meta = self._laberinto.obtener_posicion_meta()
             self._opciones = opciones
             self._camino_final = [(self._posicion_inicial, None)]
-    
+        
+        def nombre_busqueda(self):
+            return "Busqueda En Anchura"
+        
         def es_sucesor(self, candidato):
             lista = list(self._abiertos)
             for i in xrange(len(lista)):
@@ -631,7 +641,10 @@ Además A* será O(n) en tiempo y espacio en el mejor caso, cuando se tiene una 
             self._meta = self._laberinto.obtener_posicion_meta()
             self._opciones = opciones
             self._camino_final = [(self._posicion_inicial, None)]
-    
+        
+        def nombre_busqueda(self):
+            return "Busqueda En Profundidad"
+        
         def es_sucesor(self, candidato):
             lista = list(self._abiertos)
             for i in xrange(len(lista)):
@@ -672,6 +685,9 @@ Además A* será O(n) en tiempo y espacio en el mejor caso, cuando se tiene una 
             self._meta = self._laberinto.obtener_posicion_meta()
             self._opciones = opciones
             self._camino_final = [(self._posicion_inicial, None)]
+        
+        def nombre_busqueda(self):
+            return "Busqueda Costo Uniforme"
         
         def proxima_posicion(self):
             mapa = self._laberinto.obtener_matriz_laberinto()
@@ -728,7 +744,10 @@ Además A* será O(n) en tiempo y espacio en el mejor caso, cuando se tiene una 
             heapify(self._abiertos)
             self._opciones = opciones
             self._camino_final = [(self._posicion_inicial, None)]
-    
+        
+        def nombre_busqueda(self):
+            return "Busqueda A*"
+        
         def _funcion_heuristica(self, sucesor):
             dx = abs(sucesor[0] - self._meta[0])
             dy = abs(sucesor[1] - self._meta[1])
@@ -786,7 +805,8 @@ Además A* será O(n) en tiempo y espacio en el mejor caso, cuando se tiene una 
             self._laberinto = laberinto
             self._busqueda = busqueda
             self._opciones = opciones
-    
+            
+            self.title = "Busqueda del Minotauro - " + self._busqueda.nombre_busqueda()
             self._width = self._laberinto.obtener_columnas() * 32
             self._height = self._laberinto.obtener_filas() * 32
     
@@ -838,8 +858,8 @@ Además A* será O(n) en tiempo y espacio en el mejor caso, cuando se tiene una 
         def comenzar(self):
             """Inicia el despliegue del laberinto"""
             try:
-                begin_graphics(width=self._width, height=self._height, title="Buscador de Caminos")
-        
+                begin_graphics(width=self._width, height=self._height, title=self.title)
+                
                 while self._busqueda.hay_solucion():
                     if self._busqueda.es_meta():
                         break
@@ -929,8 +949,6 @@ Por último queda mencionar los problemas encontrados durante el desarrollo del 
     
     \bibitem{13} {\em Is there any simple way to benchmark python script?} Recuperado Junio 18, 2014 desde http://stackoverflow.com/questions/1593019/is-there-any-simple-way-to-benchmark-python-script
 
-    %Procedimientos estadísticos
-    \bibitem{14} Canavos, G. C., \& Medal, E. G. U. (1987). {\em Probabilidad y estadística.}  McGraw Hill.
 
 \end{thebibliography}
 
@@ -941,11 +959,146 @@ Por último queda mencionar los problemas encontrados durante el desarrollo del 
   
   \section{Imágenes de los Resultados} 
     En este anexo se presentan los resultados obtenidos por cada algoritmo en diferentes laberintos.
+  
   \subsection{Búsqueda en Anchura}
+  \begin{figure}[H]
+  \centering
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/bea_01}
+        \captionof{figure}{Búsqueda en Anchura}
+    \end{minipage}%
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/bea_02}
+        \captionof{figure}{Búsqueda en Anchura}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale = 0.4]{images/bea_03}
+        \caption{Búsqueda en Anchura: Camino Mapa 1}
+    \end{center}
+\end{figure}
+
+  
+    \begin{figure}[H]
+  \centering
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/bea_01_m2}
+        \captionof{figure}{Búsqueda en Anchura}
+    \end{minipage}%
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/bea_02_m2}
+        \captionof{figure}{Búsqueda en Anchura}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale = 0.4]{images/bea_03_m2}
+        \caption{Búsqueda en Anchura: Camino Mapa 2}
+    \end{center}
+\end{figure}
+
+
+    \begin{figure}[H]
+  \centering
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{images/bea_01_m3}
+        \captionof{figure}{Búsqueda en Anchura}
+    \end{minipage}%
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{images/bea_02_m3}
+        \captionof{figure}{Búsqueda en Anchura}
+    \end{minipage}
+\end{figure}
+  
+  \begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale = 0.4]{images/bea_03_m3}
+        \caption{Búsqueda en Anchura: Camino Mapa 3}
+    \end{center}
+\end{figure}
+
+  
   \subsection{Búsqueda en Profundidad}
+  
+      \begin{figure}[H]
+  \centering
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{images/bep_01}
+        \captionof{figure}{Búsqueda en Profundidad}
+    \end{minipage}%
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{images/bep_02}
+        \captionof{figure}{Búsqueda en Profundidad}
+    \end{minipage}
+\end{figure}
+
+  \begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale = 0.4]{images/bep_03}
+        \caption{Búsqueda en Profundidad: Camino Final}
+    \end{center}
+\end{figure}
+
+  
   \subsection{Búsqueda por Costo Uniforme}
+  
+        \begin{figure}[H]
+  \centering
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{images/bcu_01}
+        \captionof{figure}{Búsqueda por Costo Uniforme}
+    \end{minipage}%
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{images/bcu_02}
+        \captionof{figure}{Búsqueda por Costo Uniforme}
+    \end{minipage}
+\end{figure}
+
+  \begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale = 0.4]{images/bcu_03}
+        \caption{Búsqueda por Costo Uniforme: Camino Final}
+    \end{center}
+\end{figure}
+  
+  
   \subsection{Búsqueda A*}
     
+        \begin{figure}[H]
+  \centering
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{images/bae_01}
+        \captionof{figure}{Búsqueda A*}
+    \end{minipage}%
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{images/bae_02}
+        \captionof{figure}{Búsqueda A*}
+    \end{minipage}
+\end{figure}
+
+  \begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale = 0.4]{images/bae_03}
+        \caption{Búsqueda A*}
+    \end{center}
+\end{figure}
+    
+    \newpage
 
   \section{Admisibilidad de las Heurísticas}
     En este anexo se presentan las demostraciones de admisibilidad de las heurísticas propuestas. La admisibilidad de las heurísticas garantiza la optimalidad en el algoritmo A*.
