@@ -64,14 +64,15 @@
 <h1 class="epydoc">Class BusquedaAEstrella</h1><p class="nomargin-top"><span class="codelink"><a href="lib.busqueda-pysrc.html#BusquedaAEstrella">source&nbsp;code</a></span></p>
 <center>
 <center>  <map id="uml_class_diagram_for_lib_busq_2" name="uml_class_diagram_for_lib_busq_2">
-<area shape="rect" id="node1_7" href="lib.busqueda.BusquedaAEstrella-class.html#__init__" title="Crea una instancia de la clase BusquedaCostoAnchura." alt="" coords="17,199,216,219"/>
-<area shape="rect" id="node1_8" href="lib.busqueda.BusquedaAEstrella-class.html#proxima_posicion" title="Encuentra los sucesores." alt="" coords="17,219,216,239"/>
-<area shape="rect" id="node1" href="lib.busqueda.BusquedaAEstrella-class.html" title="Esta clase implementa busqueda A* con una heuristica pasada por parametro." alt="" coords="5,165,227,245"/>
-<area shape="rect" id="node2_9" href="lib.busqueda.Busqueda-class.html#es_meta" title="Comprueba si el jugador llego a la meta." alt="" coords="33,40,201,60"/>
-<area shape="rect" id="node2_10" href="lib.busqueda.Busqueda-class.html#hay_solucion" title="Comprueba si la busqueda encontro la solucion." alt="" coords="33,60,201,80"/>
-<area shape="rect" id="node2_11" href="lib.busqueda.Busqueda-class.html#es_sucesor" title="Comprueba si el candidato es un sucesor." alt="" coords="33,80,201,100"/>
-<area shape="rect" id="node2_12" href="lib.busqueda.Busqueda-class.html#encontrar" title="Encuentra el camino." alt="" coords="33,100,201,120"/>
-<area shape="rect" id="node2_13" href="lib.busqueda.Busqueda-class.html#reconstruir_camino" title="Reconstruye el camino solucion." alt="" coords="33,120,201,140"/>
+<area shape="rect" id="node1_8" href="lib.busqueda.BusquedaAEstrella-class.html#__init__" title="Crea una instancia de la clase BusquedaCostoAnchura." alt="" coords="17,200,216,220"/>
+<area shape="rect" id="node1_9" href="lib.busqueda.BusquedaAEstrella-class.html#nombre_busqueda" title="Retorna el tipo de busqueda." alt="" coords="17,220,216,240"/>
+<area shape="rect" id="node1_10" href="lib.busqueda.BusquedaAEstrella-class.html#proxima_posicion" title="Encuentra los sucesores." alt="" coords="17,240,216,260"/>
+<area shape="rect" id="node1" href="lib.busqueda.BusquedaAEstrella-class.html" title="Esta clase implementa busqueda A* con una heuristica pasada por parametro." alt="" coords="5,166,227,266"/>
+<area shape="rect" id="node2_11" href="lib.busqueda.Busqueda-class.html#es_meta" title="Comprueba si el jugador llego a la meta." alt="" coords="33,40,201,60"/>
+<area shape="rect" id="node2_12" href="lib.busqueda.Busqueda-class.html#hay_solucion" title="Comprueba si la busqueda encontro la solucion." alt="" coords="33,60,201,80"/>
+<area shape="rect" id="node2_13" href="lib.busqueda.Busqueda-class.html#es_sucesor" title="Comprueba si el candidato es un sucesor." alt="" coords="33,80,201,100"/>
+<area shape="rect" id="node2_14" href="lib.busqueda.Busqueda-class.html#encontrar" title="Encuentra el camino." alt="" coords="33,100,201,120"/>
+<area shape="rect" id="node2_15" href="lib.busqueda.Busqueda-class.html#reconstruir_camino" title="Reconstruye el camino solucion." alt="" coords="33,120,201,140"/>
 <area shape="rect" id="node2" href="lib.busqueda.Busqueda-class.html" title="Esta clase abstracta define los metodos que deben ser implementados por las busquedas especificas." alt="" coords="21,6,213,146"/>
 </map>
   <img src="uml_class_diagram_for_lib_busq_2.gif" alt='' usemap="#uml_class_diagram_for_lib_busq_2" ismap="ismap" class="graph-without-title" />
@@ -110,6 +111,23 @@
       Crea una instancia de la clase BusquedaCostoAnchura.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="lib.busqueda-pysrc.html#BusquedaAEstrella.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="lib.busqueda.BusquedaAEstrella-class.html#nombre_busqueda" class="summary-sig-name">nombre_busqueda</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Retorna el tipo de busqueda.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="lib.busqueda-pysrc.html#BusquedaAEstrella.nombre_busqueda">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -205,6 +223,29 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="nombre_busqueda"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nombre_busqueda</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="lib.busqueda-pysrc.html#BusquedaAEstrella.nombre_busqueda">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Retorna el tipo de busqueda.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="lib.busqueda.Busqueda-class.html#nombre_busqueda">Busqueda.nombre_busqueda</a>
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
 <a name="proxima_posicion"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -260,7 +301,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jun 21 17:40:32 2014
+    Generated by Epydoc 3.0.1 on Sat Jun 21 20:29:54 2014
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

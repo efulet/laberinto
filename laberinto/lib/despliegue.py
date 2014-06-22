@@ -27,7 +27,8 @@ class Despliegue:
         self._laberinto = laberinto
         self._busqueda = busqueda
         self._opciones = opciones
-
+        
+        self.title = "Busqueda del Minotauro - " + self._busqueda.nombre_busqueda()
         self._width = self._laberinto.obtener_columnas() * 32
         self._height = self._laberinto.obtener_filas() * 32
 
@@ -79,8 +80,8 @@ class Despliegue:
     def comenzar(self):
         """Inicia el despliegue del laberinto"""
         try:
-            begin_graphics(width=self._width, height=self._height, title="Buscador de Caminos")
-    
+            begin_graphics(width=self._width, height=self._height, title=self.title)
+            
             while self._busqueda.hay_solucion():
                 if self._busqueda.es_meta():
                     break

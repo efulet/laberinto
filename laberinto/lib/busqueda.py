@@ -21,7 +21,11 @@ class Busqueda:
     busquedas especificas. El fin de esta clase es estandarizar la implementacion
     de sus clases hijas.
     """
-
+    
+    def nombre_busqueda(self):
+        """Retorna el tipo de busqueda."""
+        raise NotImplementedError
+    
     def es_meta(self):
         """Comprueba si el jugador llego a la meta."""
         return self._posicion_jugador == self._meta
@@ -82,7 +86,10 @@ class BusquedaEnAnchura(Busqueda):
         self._meta = self._laberinto.obtener_posicion_meta()
         self._opciones = opciones
         self._camino_final = [(self._posicion_inicial, None)]
-
+    
+    def nombre_busqueda(self):
+        return "Busqueda En Anchura"
+    
     def es_sucesor(self, candidato):
         lista = list(self._abiertos)
         for i in xrange(len(lista)):
@@ -121,7 +128,10 @@ class BusquedaEnProfundidad(Busqueda):
         self._meta = self._laberinto.obtener_posicion_meta()
         self._opciones = opciones
         self._camino_final = [(self._posicion_inicial, None)]
-
+    
+    def nombre_busqueda(self):
+        return "Busqueda En Profundidad"
+    
     def es_sucesor(self, candidato):
         lista = list(self._abiertos)
         for i in xrange(len(lista)):
@@ -162,6 +172,9 @@ class BusquedaCostoUniforme(Busqueda):
         self._meta = self._laberinto.obtener_posicion_meta()
         self._opciones = opciones
         self._camino_final = [(self._posicion_inicial, None)]
+    
+    def nombre_busqueda(self):
+        return "Busqueda Costo Uniforme"
     
     def proxima_posicion(self):
         mapa = self._laberinto.obtener_matriz_laberinto()
@@ -218,7 +231,10 @@ class BusquedaAEstrella(Busqueda):
         heapify(self._abiertos)
         self._opciones = opciones
         self._camino_final = [(self._posicion_inicial, None)]
-
+    
+    def nombre_busqueda(self):
+        return "Busqueda A*"
+    
     def _funcion_heuristica(self, sucesor):
         dx = abs(sucesor[0] - self._meta[0])
         dy = abs(sucesor[1] - self._meta[1])

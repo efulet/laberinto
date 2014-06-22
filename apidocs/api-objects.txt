@@ -18,6 +18,7 @@ lib.opciones	lib.opciones-module.html
 lib.opciones.__package__	lib.opciones-module.html#__package__
 lib.busqueda.Busqueda	lib.busqueda.Busqueda-class.html
 lib.busqueda.Busqueda.es_meta	lib.busqueda.Busqueda-class.html#es_meta
+lib.busqueda.Busqueda.nombre_busqueda	lib.busqueda.Busqueda-class.html#nombre_busqueda
 lib.busqueda.Busqueda.reconstruir_camino	lib.busqueda.Busqueda-class.html#reconstruir_camino
 lib.busqueda.Busqueda.hay_solucion	lib.busqueda.Busqueda-class.html#hay_solucion
 lib.busqueda.Busqueda.encontrar	lib.busqueda.Busqueda-class.html#encontrar
@@ -25,6 +26,7 @@ lib.busqueda.Busqueda.es_sucesor	lib.busqueda.Busqueda-class.html#es_sucesor
 lib.busqueda.Busqueda.proxima_posicion	lib.busqueda.Busqueda-class.html#proxima_posicion
 lib.busqueda.BusquedaAEstrella	lib.busqueda.BusquedaAEstrella-class.html
 lib.busqueda.Busqueda.es_meta	lib.busqueda.Busqueda-class.html#es_meta
+lib.busqueda.BusquedaAEstrella.nombre_busqueda	lib.busqueda.BusquedaAEstrella-class.html#nombre_busqueda
 lib.busqueda.BusquedaAEstrella._funcion_heuristica	lib.busqueda.BusquedaAEstrella-class.html#_funcion_heuristica
 lib.busqueda.Busqueda.reconstruir_camino	lib.busqueda.Busqueda-class.html#reconstruir_camino
 lib.busqueda.Busqueda.hay_solucion	lib.busqueda.Busqueda-class.html#hay_solucion
@@ -34,6 +36,7 @@ lib.busqueda.BusquedaAEstrella.proxima_posicion	lib.busqueda.BusquedaAEstrella-c
 lib.busqueda.BusquedaAEstrella.__init__	lib.busqueda.BusquedaAEstrella-class.html#__init__
 lib.busqueda.BusquedaCostoUniforme	lib.busqueda.BusquedaCostoUniforme-class.html
 lib.busqueda.Busqueda.es_meta	lib.busqueda.Busqueda-class.html#es_meta
+lib.busqueda.BusquedaCostoUniforme.nombre_busqueda	lib.busqueda.BusquedaCostoUniforme-class.html#nombre_busqueda
 lib.busqueda.Busqueda.reconstruir_camino	lib.busqueda.Busqueda-class.html#reconstruir_camino
 lib.busqueda.Busqueda.hay_solucion	lib.busqueda.Busqueda-class.html#hay_solucion
 lib.busqueda.Busqueda.encontrar	lib.busqueda.Busqueda-class.html#encontrar
@@ -42,6 +45,7 @@ lib.busqueda.BusquedaCostoUniforme.proxima_posicion	lib.busqueda.BusquedaCostoUn
 lib.busqueda.BusquedaCostoUniforme.__init__	lib.busqueda.BusquedaCostoUniforme-class.html#__init__
 lib.busqueda.BusquedaEnAnchura	lib.busqueda.BusquedaEnAnchura-class.html
 lib.busqueda.Busqueda.es_meta	lib.busqueda.Busqueda-class.html#es_meta
+lib.busqueda.BusquedaEnAnchura.nombre_busqueda	lib.busqueda.BusquedaEnAnchura-class.html#nombre_busqueda
 lib.busqueda.Busqueda.reconstruir_camino	lib.busqueda.Busqueda-class.html#reconstruir_camino
 lib.busqueda.Busqueda.hay_solucion	lib.busqueda.Busqueda-class.html#hay_solucion
 lib.busqueda.Busqueda.encontrar	lib.busqueda.Busqueda-class.html#encontrar
@@ -50,6 +54,7 @@ lib.busqueda.BusquedaEnAnchura.proxima_posicion	lib.busqueda.BusquedaEnAnchura-c
 lib.busqueda.BusquedaEnAnchura.__init__	lib.busqueda.BusquedaEnAnchura-class.html#__init__
 lib.busqueda.BusquedaEnProfundidad	lib.busqueda.BusquedaEnProfundidad-class.html
 lib.busqueda.Busqueda.es_meta	lib.busqueda.Busqueda-class.html#es_meta
+lib.busqueda.BusquedaEnProfundidad.nombre_busqueda	lib.busqueda.BusquedaEnProfundidad-class.html#nombre_busqueda
 lib.busqueda.Busqueda.reconstruir_camino	lib.busqueda.Busqueda-class.html#reconstruir_camino
 lib.busqueda.Busqueda.hay_solucion	lib.busqueda.Busqueda-class.html#hay_solucion
 lib.busqueda.Busqueda.encontrar	lib.busqueda.Busqueda-class.html#encontrar
