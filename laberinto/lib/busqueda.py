@@ -243,8 +243,11 @@ class BusquedaAEstrella(Busqueda):
     def _funcion_heuristica(self, sucesor):
         dx = abs(sucesor[0] - self._meta[0])
         dy = abs(sucesor[1] - self._meta[1])
-        # Distancia de Manhattan modificada!
-        return dx + dy + min(dx, dy)
+        # Distancia de Manhattan!
+        heuristica = dx + dy
+        # Se agrega un factor rompe empates.
+        p = 0.001
+        return heuristica * (1 + p)
 
     def proxima_posicion(self):
         mapa = self._laberinto.obtener_matriz_laberinto()
