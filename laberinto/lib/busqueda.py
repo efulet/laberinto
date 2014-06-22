@@ -53,11 +53,16 @@ class Busqueda:
     def reconstruir_camino(self):
         """Reconstruye el camino solucion."""
         lista = list()
+        elemento = None
         #Se busca primero la posicion final (que no necesariamente es la ultima del arreglo).
         for k in xrange(len(self._camino_final)):
             if self._camino_final[k][0] == self._meta:
                 elemento = self._camino_final[k]
                 break
+
+        #Si es que no se encontro solucion no hay camino final.
+        if elemento is None:
+            return lista
 
         #Se busca los padres mientras no sea el inicio.
         while elemento[1] != self._posicion_inicial:
